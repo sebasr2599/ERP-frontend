@@ -1,3 +1,6 @@
+ body {
+    @apply bg-secondary;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
