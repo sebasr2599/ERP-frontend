@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
   };
   return (
     <nav style={{ backgroundColor: 'white' }} className="w-full bg-white shadow-md border-b-4 border-primary">
-      <div className="container mx-auto flex justify-between items-center py-4">
+      <div className="container mx-auto flex justify-between items-center py-2">
         <div className="flex flex-row gap-2 md:gap-8  justify-center items-center">
           <h1 className="text-2xl py-2">Puesto Basañez</h1>
           <Link to="/" className="text-lg font-bold">
