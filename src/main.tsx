@@ -7,6 +7,9 @@ import { AuthProvider } from 'react-auth-kit';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserProvider } from './context/UserContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -16,22 +19,24 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       cookieDomain={window.location.hostname}
       cookieSecure={window.location.protocol === 'https:'}
     >
-      <UserProvider>
-        <BrowserRouter>
-          <App />
-          <ToastContainer
-            position="bottom-left"
-            autoClose={2000}
-            hideProgressBar={false}
-            closeOnClick
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            rtl={false}
-          />
-        </BrowserRouter>
-      </UserProvider>
+      <QueryClientProvider client={queryClient}>
+        <UserProvider>
+          <BrowserRouter>
+            <App />
+            <ToastContainer
+              position="bottom-left"
+              autoClose={2000}
+              hideProgressBar={false}
+              closeOnClick
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              rtl={false}
+            />
+          </BrowserRouter>
+        </UserProvider>
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>,
 );
