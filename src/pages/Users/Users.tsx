@@ -4,11 +4,19 @@ import { useMemo } from 'react';
 import DataGrid from 'react-data-grid';
 import 'react-data-grid/lib/styles.css';
 import { getUsers } from '../../services/user.service';
+import { toast } from 'react-toastify';
 
 const Users = () => {
   const data = useMemo(() => fakeData, []);
   const users = useQuery({ queryKey: ['users'], queryFn: getUsers });
 
+  if (users.isPending) {
+    console.log('users is querying');
+  }
+  if (users.isError) {
+    console.log('Something went wrong :(');
+    toast.error('Error al obtener al usuaro');
+  }
   const columns = [
     { key: 'username', name: 'Nombre del Usuario' },
     { key: 'first_name', name: 'Nombre' },

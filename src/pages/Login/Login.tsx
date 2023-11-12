@@ -6,6 +6,7 @@ import { login } from '../../services/auth.service';
 import { useSignIn } from 'react-auth-kit';
 import { useUser } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { getActions } from '../../store/auth-store';
 
 const boxStyle = {
   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Adjust the values to your preference
@@ -17,6 +18,7 @@ export const Login: React.FC = () => {
   const loginHook = useSignIn();
   const { setUserInfo } = useUser();
   const navigateTo = useNavigate();
+  const { setAccessToken, setUserInformation } = getActions();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -36,6 +38,14 @@ export const Login: React.FC = () => {
         lastName: user.last_name,
         role: user.rol,
       });
+
+      setAccessToken(user.access_token);
+      setUserInformation({
+        firstName: user.first_name,
+        lastName: user.last_name,
+        role: user.rol,
+      });
+
       navigateTo('/');
     }
   };

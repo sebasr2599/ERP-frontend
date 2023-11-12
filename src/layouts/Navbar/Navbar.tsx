@@ -3,9 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useSignOut } from 'react-auth-kit';
+import { getFirstName, getLastName } from '../../store/auth-store';
 
 const Navbar: React.FC = () => {
-  const { firstName, lastName } = useUser();
+  // const { firstName, lastName } = useUser();
+  const firstName = getFirstName();
+  const lastName = getLastName();
   const signOutHook = useSignOut();
   const navigateTo = useNavigate();
 
