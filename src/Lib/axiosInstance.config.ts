@@ -1,16 +1,26 @@
 import axios from 'axios';
-import { useUser } from '../context/UserContext';
+import { getAccessToken } from '../store/auth-store';
 
 const backend = import.meta.env.VITE_BACKEND_URL;
-
 // const getBearerToken = () => {
 //   const user = useUser();
 //   return user.accessToken;
 // };
 // TODO: get the bearer token from state management, might need axios interceptors
-export const AxiosERPInstance = axios.create({
+
+const AxiosERPInstance = axios.create({
   baseURL: backend,
   // headers: {
   //   Authorization: `Bearer ${getBearerToken()}`,
   // },
 });
+
+AxiosERPInstance.interceptors.request.use((config) => {
+  const token = getAccessToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export { AxiosERPInstance };

@@ -4,7 +4,6 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import { login } from '../../services/auth.service';
 import { useSignIn } from 'react-auth-kit';
-import { useUser } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { getActions } from '../../store/auth-store';
 
@@ -16,7 +15,6 @@ const boxStyle = {
 export const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const loginHook = useSignIn();
-  const { setUserInfo } = useUser();
   const navigateTo = useNavigate();
   const { setAccessToken, setUserInformation } = getActions();
 
@@ -30,13 +28,6 @@ export const Login: React.FC = () => {
         token: user.access_token,
         expiresIn: 60 * 8,
         tokenType: 'Bearer',
-      });
-
-      setUserInfo({
-        accessToken: user.access_token,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        role: user.rol,
       });
 
       setAccessToken(user.access_token);

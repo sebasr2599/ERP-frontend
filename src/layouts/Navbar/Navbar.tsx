@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useSignOut } from 'react-auth-kit';
 import { getFirstName, getLastName } from '../../store/auth-store';
+import { logoutAuth } from '../../utils/auth-util';
 
 const Navbar: React.FC = () => {
   // const { firstName, lastName } = useUser();
@@ -11,10 +11,10 @@ const Navbar: React.FC = () => {
   const lastName = getLastName();
   const signOutHook = useSignOut();
   const navigateTo = useNavigate();
-
   const handleOnClickLogOut = () => {
     console.log('logging out');
     signOutHook();
+    logoutAuth();
     navigateTo('/login');
   };
   return (
