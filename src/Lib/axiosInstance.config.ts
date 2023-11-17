@@ -6,7 +6,6 @@ const backend = import.meta.env.VITE_BACKEND_URL;
 //   const user = useUser();
 //   return user.accessToken;
 // };
-// TODO: get the bearer token from state management, might need axios interceptors
 
 const AxiosERPInstance = axios.create({
   baseURL: backend,

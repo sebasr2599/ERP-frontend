@@ -1,4 +1,4 @@
-import Login from '../../pages/Login/Login';
+import { Navigate } from 'react-router-dom';
 import { isLoggedIn } from '../../utils/auth-util';
 
 interface RequireAuthProps {
@@ -9,7 +9,7 @@ export const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
   const isLogged = isLoggedIn(); // Use a consistent variable name across the code
 
   if (!isLogged) {
-    return <Login />;
+    return <Navigate to={'/login'} replace />;
   }
   return children;
 };

@@ -3,13 +3,15 @@ import Login from '../pages/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Navbar from '../layouts/Navbar/Navbar';
 import Users from '../pages/Users/Users';
-import { isLoggedIn } from '../utils/auth-util';
 import { RequireAuth } from '../components/RequireAuth/RequireAuth';
+import { useIsAuthenticated } from 'react-auth-kit';
 
 export function App() {
+  const isIn = useIsAuthenticated();
+  // note, this variable is called in a single time, either change to hook or use effect
   return (
     <>
-      {isLoggedIn() && <Navbar />}
+      {isIn() && <Navbar />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
