@@ -28,7 +28,6 @@
     "formik": "^2.4.5",
     "react": "^18.2.0",
     "react-auth-kit": "^2.12.7",
-    "react-data-grid": "^7.0.0-beta.41",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
     "react-toastify": "^9.1.3",

@@ -21,8 +21,8 @@ export const updateUser = async (id: number, user: User) => {
   return response;
 };
 // Update User password
-export const changePassword = async (id: number, body: { password: string }) => {
-  const response = await AxiosERPInstance.patch(`/user/${id}/password`, body);
+export const changePassword = async (id: number, password: string) => {
+  const response = await AxiosERPInstance.patch(`/user/${id}/password`, { password: password });
   return response;
 };
 // Delete User
