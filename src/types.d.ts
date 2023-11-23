@@ -24,5 +24,30 @@ type Column<T extends TableNode> = {
   pinLeft?: boolean;
   pinRight?: boolean;
   hide?: boolean;
-  cellProps?: Record<string, any>;
+  cellProps?: Record<string>;
 };
+
+interface Product {
+  id?: number;
+  name: string;
+  description: string;
+  image?: string;
+  priceUnit?: number;
+  priceWholesale?: number;
+  unitId?: number;
+  categoryId?: number;
+}
+interface Unit {
+  id: number;
+  name: string;
+}
+interface Category {
+  id: number;
+  name: string;
+}
+interface loginResponse {
+  access_token: string;
+  first_name: string;
+  last_name: string;
+  rol: string;
+}

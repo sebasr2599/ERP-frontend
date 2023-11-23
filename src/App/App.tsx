@@ -5,10 +5,11 @@ import Navbar from '../layouts/Navbar/Navbar';
 import Users from '../pages/Users/Users';
 import { RequireAuth } from '../components/RequireAuth/RequireAuth';
 import { useIsAuthenticated } from 'react-auth-kit';
+import Inventory from '../pages/Inventory/Inventory';
 
+// TODO: Add use state to get access_tocken from localStorage, then check if it's auth and set store
 export function App() {
   const isIn = useIsAuthenticated();
-  // note, this variable is called in a single time, either change to hook or use effect
   return (
     <>
       {isIn() && <Navbar />}
@@ -27,6 +28,14 @@ export function App() {
           element={
             <RequireAuth>
               <Users />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/inventory"
+          element={
+            <RequireAuth>
+              <Inventory />
             </RequireAuth>
           }
         />

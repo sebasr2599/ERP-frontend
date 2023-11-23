@@ -2,12 +2,6 @@ import axios, { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 const backend = import.meta.env.VITE_BACKEND_URL;
-interface loginResponse {
-  access_token: string;
-  first_name: string;
-  last_name: string;
-  rol: string;
-}
 
 export const login = async (username: string, password: string): Promise<loginResponse | void> => {
   try {

@@ -36,6 +36,7 @@ export const Login: React.FC = () => {
         lastName: user.last_name,
         role: user.rol,
       });
+      localStorage.setItem('access_token', user.access_token);
 
       navigateTo('/');
     }
