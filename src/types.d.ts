@@ -36,6 +36,8 @@ interface Product {
   priceWholesale?: number;
   unitId?: number;
   categoryId?: number;
+  category?: Category;
+  unit?: Unit;
 }
 interface Unit {
   id: number;
@@ -50,4 +52,12 @@ interface loginResponse {
   first_name: string;
   last_name: string;
   rol: string;
+}
+interface Inventory {
+  id?: number;
+  quantity: number;
+  date?: Date;
+  location: string;
+  productId: number;
+  userId?: number;
 }

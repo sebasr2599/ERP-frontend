@@ -160,6 +160,7 @@ const Users = () => {
   // TODO: Sort table alphabetical
   return (
     <>
+      {/* TODO: change this to page InfoBar component */}
       <div className="p-8 flex justify-between mx-auto ">
         <h1 className="font-bold text-3xl">Usuarios</h1>
         <div className="flex flex-row w-1/3 gap-4">

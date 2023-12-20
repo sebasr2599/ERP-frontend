@@ -49,7 +49,7 @@ export const Login: React.FC = () => {
     },
     onSubmit,
   });
-
+  // TODO: add loading screen or toast when submitted
   return (
     <div className="w-full min-h-screen p-5 flex items-center justify-center">
       <form

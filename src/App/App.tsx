@@ -6,6 +6,7 @@ import Users from '../pages/Users/Users';
 import { RequireAuth } from '../components/RequireAuth/RequireAuth';
 import { useIsAuthenticated } from 'react-auth-kit';
 import Inventory from '../pages/Inventory/Inventory';
+import ProductInventory from '../pages/Inventory/ProductInventory';
 
 // TODO: Add use state to get access_tocken from localStorage, then check if it's auth and set store
 export function App() {
@@ -36,6 +37,14 @@ export function App() {
           element={
             <RequireAuth>
               <Inventory />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/inventory/:productId"
+          element={
+            <RequireAuth>
+              <ProductInventory />
             </RequireAuth>
           }
         />

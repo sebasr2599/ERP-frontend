@@ -224,71 +224,7 @@ const UsersModal: React.FC<ImageModalProps> = ({
     default:
       modalContent = null;
   }
-  // TODO: edit and delete user... modal
   return <>{modalContent}</>;
 };
 
 export default UsersModal;
-// {mode === 'Delete' && id ? (
-//         <ModalTemplate open={open} title="Borrar Usuario" handleOnClose={onClose}>
-//           <DialogContent>Seguro que quieres Borrar el usuario?</DialogContent>
-//           <DialogActions>
-//             <Button onClick={onClose}>Cancelar</Button>
-//             <Button onClick={() => onDeleteAccept(id)}>Aceptar</Button>
-//           </DialogActions>
-//         </ModalTemplate>
-//       ) : (
-//         <ModalTemplate open={open} title="Agregar usuario" handleOnClose={onClose}>
-//           <form onSubmit={formikContext.handleSubmit}>
-//             <DialogContent>
-//               <div className="flex flex-col gap-4">
-//                 <TextField
-//                   onChange={formikContext.handleChange}
-//                   className="w-full"
-//                   required
-//                   label="Nombre del usuario"
-//                   name="username"
-//                   value={formikContext.values.username}
-//                 />
-//                 <TextField
-//                   onChange={formikContext.handleChange}
-//                   value={formikContext.values.first_name}
-//                   className="w-full"
-//                   required
-//                   label="Nombre"
-//                   name="first_name"
-//                 />
-//                 <TextField
-//                   onChange={formikContext.handleChange}
-//                   value={formikContext.values.last_name}
-//                   className="w-full"
-//                   required
-//                   label="Nombre"
-//                   name="last_name"
-//                 />
-//                 <Select
-//                   onChange={formikContext.handleChange}
-//                   value={formikContext.values.rol ?? 'usuario'}
-//                   label="Role"
-//                   name="rol"
-//                   required
-//                 >
-//                   <MenuItem value="admin">Admin</MenuItem>
-//                   <MenuItem value="usuario">Usuario</MenuItem>
-//                 </Select>
-//                 <TextField
-//                   onChange={formikContext.handleChange}
-//                   value={formikContext.values.password}
-//                   label="Password"
-//                   type="password"
-//                   name="password"
-//                 />
-//               </div>
-//             </DialogContent>
-//             <DialogActions>
-//               <Button onClick={onClose}>Cancelar</Button>
-//               <Button type="submit">Aceptar</Button>
-//             </DialogActions>
-//           </form>
-//         </ModalTemplate>
-// //       )}
