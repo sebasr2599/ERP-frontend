@@ -17,6 +17,7 @@ const Navbar: React.FC = () => {
     logoutAuth();
     navigateTo('/login');
   };
+  // TODO: Fix responsive design for sm, md and bigger works as supposed
   return (
     <nav style={{ backgroundColor: 'white' }} className="w-full bg-white shadow-md border-b-4 border-primary">
       <div className="container mx-auto flex justify-between items-center py-2">

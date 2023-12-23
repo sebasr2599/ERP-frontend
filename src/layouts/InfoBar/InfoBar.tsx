@@ -4,6 +4,7 @@ interface InfoBarProps {
   children?: React.ReactNode;
   pageTitle: string;
 }
+// TODO: Fix responsive design, make it fold or row for sm
 const InfoBar: FC<InfoBarProps> = ({ children, pageTitle }) => {
   return (
     <div className="p-8 flex justify-between">

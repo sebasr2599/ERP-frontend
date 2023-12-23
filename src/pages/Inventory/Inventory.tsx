@@ -69,7 +69,8 @@ const Inventory = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSearch(event.target.value);
   };
-
+  // TODO: Solve filtering with react query
+  // TODO: Fix responsive design for cards
   return (
     <>
       <InfoBar pageTitle="Inventario">

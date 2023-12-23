@@ -1,7 +1,6 @@
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
-import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
 import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 import PriceCheckOutlinedIcon from '@mui/icons-material/PriceCheckOutlined';
 
@@ -29,11 +28,6 @@ export const DashboardModules: ModuleInterface[] = [
     title: 'Orden',
     route: '/order',
     icon: <NoteAltOutlinedIcon className="text-primary" style={iconStyle} />,
-  },
-  {
-    title: 'Caja',
-    route: '/cash-register',
-    icon: <PointOfSaleOutlinedIcon className="text-primary" style={iconStyle} />,
   },
   {
     title: 'Reportes',

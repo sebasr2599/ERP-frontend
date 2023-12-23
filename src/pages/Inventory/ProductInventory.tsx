@@ -8,7 +8,7 @@ import { NumericFormat } from 'react-number-format';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { createInventoryRegistry } from '../../services/inventory.service';
-
+import ErrorImage from '../../assets/ErrorImage.png';
 const ProductInventory = () => {
   //hooks
   const { productId } = useParams();
@@ -44,6 +44,13 @@ const ProductInventory = () => {
   });
   // Other
   const pageTitle = `Inventario del producto ${productQuery?.data?.name}`;
+  const handleOnCancel = () => {
+    navigateTo('/inventory');
+  };
+
+  // const onImageError = (event: React.ReactEventHandler<HTMLImageElement>) => {
+  //   event;
+  // };
   return (
     <>
       <InfoBar pageTitle={pageTitle} />
@@ -56,12 +63,13 @@ const ProductInventory = () => {
             className="flex flex-col gap-4 justify-center items-center w-full md:p-20 sm:p-2 "
           >
             {/* Todo change image to proper queried image */}
-            <LazyLoadImage
-              src="https://drive.google.com/uc?export=view&id=1oJgY3Fjd28ihFUWBowB6n1tdXfEfumDn"
+            <img
+              src={productQuery?.data?.image}
               alt={productQuery?.data?.name}
               width={320}
               height={400}
-              placeholder={<Skeleton variant="rectangular" width={320} height={400} />}
+              // placeholder={<Skeleton variant="rectangular" width={320} height={400} />}
+              onError={(event) => (event.currentTarget.src = ErrorImage)}
             />
             <TextField
               className="w-full"
@@ -140,7 +148,7 @@ const ProductInventory = () => {
             </div>
             <div className="w-full flex flex-row gap-4">
               <Button
-                type="submit"
+                onClick={handleOnCancel}
                 variant="contained"
                 style={{ backgroundColor: '#F6F6FB', color: 'black' }}
                 className="w-full text-black"
