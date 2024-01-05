@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { readProduct } from '../../services/product.service';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Button, Skeleton, TextField } from '@mui/material';
 import { NumericFormat } from 'react-number-format';
 import { useFormik } from 'formik';

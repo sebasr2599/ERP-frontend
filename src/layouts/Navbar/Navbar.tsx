@@ -12,12 +12,10 @@ const Navbar: React.FC = () => {
   const signOutHook = useSignOut();
   const navigateTo = useNavigate();
   const handleOnClickLogOut = () => {
-    console.log('logging out');
     signOutHook();
     logoutAuth();
     navigateTo('/login');
   };
-  // TODO: Fix responsive design for sm, md and bigger works as supposed
   return (
     <nav style={{ backgroundColor: 'white' }} className="w-full bg-white shadow-md border-b-4 border-primary">
       <div className="container mx-auto flex justify-between items-center py-2">
