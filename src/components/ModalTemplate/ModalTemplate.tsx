@@ -11,7 +11,14 @@ export interface ModalTemplateProps {
 }
 const ModalTemplate: React.FC<ModalTemplateProps> = ({ open, handleOnClose, children, title }) => {
   return (
-    <Dialog open={open} onClose={handleOnClose} className="absolute p-2" fullWidth={true} maxWidth={'md'}>
+    <Dialog
+      open={open}
+      onClose={handleOnClose}
+      className="absolute p-2"
+      fullWidth={true}
+      maxWidth={'md'}
+      sx={{ padding: '1em' }}
+    >
       <DialogTitle className="flex flex-row justify-between" sx={{ py: 2, px: 3 }}>
         <Typography sx={{ fontSize: 25 }} /* variant="h4" */>{title}</Typography>
         <IconButton onClick={handleOnClose}>

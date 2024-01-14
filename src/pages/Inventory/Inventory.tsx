@@ -20,6 +20,7 @@ const model: Product = {
   priceWholesale: 0,
   unitId: 1,
   categoryId: 1,
+  equivalencies: [],
 };
 
 type modes = 'Product' | 'Delete' | '';

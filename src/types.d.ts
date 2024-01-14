@@ -38,6 +38,13 @@ interface Product {
   categoryId?: number;
   category?: Category;
   unit?: Unit;
+  equivalencies?: EquivalentUnit[];
+}
+interface EquivalentUnit {
+  id?: number;
+  equivalent: number;
+  productId?: number;
+  unitId: number;
 }
 interface Unit {
   id: number;
