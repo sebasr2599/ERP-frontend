@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import ModalTemplate from '../../components/ModalTemplate/ModalTemplate';
-import { FieldArray, Form, Formik, useFormik } from 'formik';
+import { FieldArray, Form, Formik } from 'formik';
 import { Button, DialogActions, DialogContent, MenuItem, TextField } from '@mui/material';
 import { NumericFormat } from 'react-number-format';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -156,12 +156,12 @@ const InventoryModal: FC<InventoryModalProps> = ({
                     </TextField>
                   </div>
                   <FieldArray
-                    name="equivalencies"
+                    name="equivalentUnits"
                     render={(arrayHelpers) => (
                       <div className="w-full flex flex-col gap-4">
-                        {props.values.equivalencies &&
-                          props.values.equivalencies.length > 0 &&
-                          props.values.equivalencies.map((_, index) => (
+                        {props.values.equivalentUnits &&
+                          props.values.equivalentUnits.length > 0 &&
+                          props.values.equivalentUnits.map((_, index) => (
                             <div key={index} className="flex flex-row gap-4">
                               {/* <TextField
                                 onChange={props.handleChange}
@@ -174,12 +174,12 @@ const InventoryModal: FC<InventoryModalProps> = ({
                               <NumericFormat
                                 onValueChange={(values) => {
                                   const { floatValue } = values;
-                                  props.setFieldValue(`equivalencies.${index}.equivalent`, floatValue);
+                                  props.setFieldValue(`equivalentUnits.${index}.equivalent`, floatValue);
                                 }}
                                 className="w-full"
                                 required
-                                name={`equivalencies.${index}.equivalent`}
-                                value={product.id && props.values.equivalencies?.[index].equivalent}
+                                name={`equivalentUnits.${index}.equivalent`}
+                                value={product.id && props.values.equivalentUnits?.[index].equivalent}
                                 allowNegative={false}
                                 thousandSeparator=","
                                 prefix={'$ '}
@@ -187,14 +187,14 @@ const InventoryModal: FC<InventoryModalProps> = ({
                                 {...{ label: 'Precio de la equivalencia' }}
                               />
                               <TextField
-                                onChange={props.handleChange(`equivalencies.${index}.unitId`)}
+                                onChange={props.handleChange(`equivalentUnits.${index}.unitId`)}
                                 className="w-full"
                                 required
                                 select
                                 label="Unidad del producto"
                                 fullWidth
                                 variant="outlined"
-                                value={props.values.equivalencies?.[index]?.unitId}
+                                value={props.values.equivalentUnits?.[index]?.unitId}
                               >
                                 {units.data?.map((unit) => (
                                   <MenuItem key={unit.id} value={unit.id}>
@@ -228,7 +228,6 @@ const InventoryModal: FC<InventoryModalProps> = ({
                             })
                           }
                         >
-                          {/* show this when user has removed all friends from the list */}
                           Agregar equivalencias
                         </Button>
                       </div>

@@ -38,13 +38,14 @@ interface Product {
   categoryId?: number;
   category?: Category;
   unit?: Unit;
-  equivalencies?: EquivalentUnit[];
+  equivalentUnits?: EquivalentUnit[];
 }
 interface EquivalentUnit {
   id?: number;
   equivalent: number;
   productId?: number;
   unitId: number;
+  unit?: Unit;
 }
 interface Unit {
   id: number;
@@ -67,4 +68,23 @@ interface Inventory {
   location: string;
   productId: number;
   userId?: number;
+}
+interface OrderDetail {
+  id?: number;
+  quantity: number;
+  price: number;
+  unitId: number;
+  productId: number;
+  equivalency?: number;
+}
+interface Order {
+  id?: number;
+  date?: Date;
+  userId?: number;
+  location: string;
+  name: string;
+  wholesale: boolean;
+  status: string;
+  total: number;
+  orderDetails: OrderDetail[];
 }

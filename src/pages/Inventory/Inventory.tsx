@@ -20,7 +20,7 @@ const model: Product = {
   priceWholesale: 0,
   unitId: 1,
   categoryId: 1,
-  equivalencies: [],
+  equivalentUnits: [],
 };
 
 type modes = 'Product' | 'Delete' | '';
@@ -56,7 +56,7 @@ const Inventory = () => {
       handleOnCloseModal();
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
-    onError: () => toast.error('Error al crear un nuevo usuario'),
+    onError: () => toast.error('Error al crear un nuevo producto'),
   });
 
   const { mutate: editProductMutate } = useMutation({
@@ -65,7 +65,7 @@ const Inventory = () => {
       handleOnCloseModal();
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
-    onError: () => toast.error('Error al crear un nuevo usuario'),
+    onError: () => toast.error('Error al editar producto'),
   });
 
   const { mutate: deleteProductMutate } = useMutation({
@@ -75,7 +75,7 @@ const Inventory = () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
 
-    onError: () => toast.error('Error al crear un nuevo usuario'),
+    onError: () => toast.error('Error al borrar'),
   });
   // handlers and helper funcionts
   const handleOnOpenModal = () => setOpenModal(true);

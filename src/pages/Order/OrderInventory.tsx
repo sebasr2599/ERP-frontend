@@ -47,6 +47,9 @@ const OrderInventory = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSearch(event.target.value);
   };
+  const handleOnProductSubmit = (orderDetail: OrderDetail) => {
+    console.log(orderDetail);
+  };
 
   // TODO: Solve filtering with react query
   return (
@@ -67,7 +70,7 @@ const OrderInventory = () => {
       ) : (
         <div className="w-full grid prodGridContainer gap-4 justify-center items-center p-4">
           {productsQuery.data?.map((product) => (
-            <ProductCard product={product} key={product.id} />
+            <ProductCard onProductSubmit={handleOnProductSubmit} product={product} key={product.id} />
           ))}
         </div>
       )}
