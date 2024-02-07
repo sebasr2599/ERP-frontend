@@ -10,13 +10,11 @@ export interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
-  // Can be fixed to less if's
   const totalHelper = (quantity: number, price: number, unitId: number): number => {
-    if (quantity <= 0 && unitId === product.unitId) {
-      return product?.priceUnit;
+    if (quantity <= 0) {
+      return price;
     }
     if (unitId === product.unitId && product.priceUnit) {
-      // console.log(`selectedUnitId: ${unitId} mainproductId: ${product.priceUnit} selectedEquivalency: ${equivalency}`);
       return quantity * product.priceUnit;
     }
     return quantity * price;
@@ -29,18 +27,20 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
     unitId: product.unitId || 1,
     productId: product.id || 1,
     total: totalHelper(0, product?.priceUnit, product.unitId) || 0,
+    productName: product.name,
+    unitName: product.unit?.name,
     // total: product.priceUnit,
   };
 
   return (
     <div
       key={product.id}
-      className="w-full max-w-sm border border-gray-800 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 justify-self-center"
+      className="w-full max-w-md border border-gray-800 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 justify-self-center"
       style={{ backgroundColor: 'white', borderColor: '#F6F6F6' }}
     >
       <div className="relative">
         <div className="p-8 rounded-t-lg">
-          <LazyLoadImage src={product.image} alt={product.name} placeholderSrc={ErrorImage} width={350} height={320} />
+          <LazyLoadImage src={product.image} alt={product.name} placeholderSrc={ErrorImage} width={300} height={320} />
         </div>
       </div>
       <Formik
@@ -71,6 +71,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
             </div>
 
             <div className="flex items-center justify-between gap-2">
+              {/* TODO: Change to Numeric format */}
               <TextField
                 onChange={async (e) => {
                   props.handleChange(e);
@@ -95,12 +96,14 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                 variant="outlined"
                 name="unitId"
                 value={props.values.unitId}
+                disabled={product.equivalentUnits?.length < 1}
               >
                 <MenuItem
                   value={product.unit?.id}
                   onClick={() => {
                     props.setFieldValue('price', product.priceUnit);
                     props.setFieldValue('total', totalHelper(props.values.quantity, product.priceUnit, product.unitId));
+                    props.setFieldValue('unitName', product.unit?.name);
                   }}
                 >
                   {product.unit?.name}
@@ -115,6 +118,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                         'total',
                         totalHelper(props.values.quantity, equivalentUnit.equivalent, equivalentUnit.unit?.id),
                       );
+                      props.setFieldValue('unitName', equivalentUnit.unit.name);
                     }}
                   >
                     {equivalentUnit.unit?.name}
@@ -152,10 +156,4 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
     // </div>
   );
 };
-{
-  /* 
-  TODO: Add to Zustand store
-  
-*/
-}
 export default ProductCard;

@@ -38,7 +38,7 @@ interface Product {
   categoryId?: number;
   category?: Category;
   unit?: Unit;
-  equivalentUnits?: EquivalentUnit[];
+  equivalentUnits: EquivalentUnit[];
 }
 interface EquivalentUnit {
   id?: number;
@@ -76,6 +76,8 @@ interface OrderDetail {
   unitId: number;
   productId: number;
   total?: number;
+  productName?: string;
+  unitName?: string;
 }
 interface Order {
   id?: number;
@@ -84,7 +86,8 @@ interface Order {
   location: string;
   name: string;
   wholesale: boolean;
-  status: string;
+  status: OrderStatus;
   total: number;
   orderDetails: OrderDetail[];
 }
+type OrderStatus = 'NOT STARTED' | 'STARTED' | 'PENDING' | 'RELEASED';

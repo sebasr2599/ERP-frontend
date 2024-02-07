@@ -1,20 +1,26 @@
 import { create } from 'zustand';
 
-interface cartStore {
+interface cartStoreState {
   order: Order;
+}
+interface cartStoreActions {
   addOrderDetail: (orderDetail: OrderDetail) => void;
   removeOrderDetail: (index: number) => void;
+  reset: () => void;
 }
-
-export const useCartStore = create<cartStore>((set) => ({
+const initialState: cartStoreState = {
   order: {
     name: '',
     location: '',
     wholesale: false,
-    status: 'pending',
+    status: 'NOT STARTED',
     total: 0,
     orderDetails: [],
   },
+};
+
+export const useCartStore = create<cartStoreState & cartStoreActions>((set) => ({
+  ...initialState,
   addOrderDetail: (orderDetail: OrderDetail) => {
     set((state) => ({
       order: {
@@ -32,6 +38,9 @@ export const useCartStore = create<cartStore>((set) => ({
         total: state.order.total - state.order.orderDetails[index].price * state.order.orderDetails[index].quantity,
       },
     }));
+  },
+  reset: () => {
+    set(initialState);
   },
 }));
 // interface OrderDetail {

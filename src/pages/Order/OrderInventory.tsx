@@ -1,7 +1,7 @@
-import { TextField } from '@mui/material';
+import { SwipeableDrawer, TextField } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import {} from '@mui/icons-material';
-import { useState } from 'react';
+import { ShoppingCart } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCategories } from '../../services/category.service';
 import { getUnits } from '../../services/unit.service';
@@ -9,12 +9,27 @@ import { getProducts } from '../../services/product.service';
 // import { toast } from 'react-toastify';
 import ProductCard from './ProductCard';
 import NoItems from '../../layouts/NoItems/NoItems';
+import { useCartStore } from '../../store/cart-store';
+import OrderCart from './OrderCart';
 
 const OrderInventory = () => {
   // Hooks
   const queryClient = useQueryClient();
+  const orderStatus = useCartStore((state) => state.order.status);
+  const orderDetailsLen = useCartStore((state) => state.order.orderDetails.length);
+  const addToOrder = useCartStore((state) => state.addOrderDetail);
+
   // Use states
   const [search, setSearch] = useState('');
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [openTab, setOpenTab] = useState<boolean>(false);
+
+  // Use effects
+  useEffect(() => {
+    if (orderStatus === 'NOT STARTED') {
+      setModalOpen(true);
+    }
+  }, []);
 
   // React query functions
   const productsQuery = useQuery({
@@ -47,14 +62,31 @@ const OrderInventory = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSearch(event.target.value);
   };
+
   const handleOnProductSubmit = (orderDetail: OrderDetail) => {
     console.log(orderDetail);
+    addToOrder(orderDetail);
+  };
+
+  const handleOnOpenTab = () => {
+    setOpenTab(true);
+  };
+
+  const handleOnCloseTab = () => {
+    setOpenTab(false);
   };
 
   // TODO: Solve filtering with react query
   return (
     <>
       <InfoBar pageTitle="Orden">
+        <button
+          className="flex flex-row items-center p-4 gap-2 rounded-full bg-white border border-slate-400 hover:bg-slate-100 hover:border-slate-700 hover:cursor-pointer"
+          onClick={handleOnOpenTab}
+        >
+          <span className="text-xl text-slate-400">{orderDetailsLen}</span>
+          <ShoppingCart className="text-xl text-slate-400" />
+        </button>
         <TextField sx={{ backgroundColor: '#FFF' }} fullWidth label="Buscar Categoria" onChange={handleSearch} />
         <TextField
           sx={{ backgroundColor: '#FFF' }}
@@ -74,6 +106,9 @@ const OrderInventory = () => {
           ))}
         </div>
       )}
+      <SwipeableDrawer anchor="right" open={openTab} onOpen={handleOnOpenTab} onClose={handleOnCloseTab}>
+        <OrderCart />
+      </SwipeableDrawer>
     </>
   );
 };
