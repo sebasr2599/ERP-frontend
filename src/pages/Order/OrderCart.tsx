@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCartStore } from '../../store/cart-store';
 import NoItems from '../../layouts/NoItems/NoItems';
 import StatusComponent from '../../components/StatusComponent/StatusComponent';
@@ -15,11 +14,28 @@ import {
 } from '@mui/material';
 import { NumericFormat } from 'react-number-format';
 import OrderRow from './OrderRow';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+import { createOrder } from '../../services/order.service';
 
 const OrderCart = () => {
   const order = useCartStore((state) => state.order);
   const orderStatus = useCartStore((state) => state.order.status);
   const resetOrder = useCartStore((state) => state.reset);
+
+  const handleOnOrderSubmit = () => {
+    console.log(order);
+    createOrderMutate(order);
+  };
+  // React Query Mutation
+  const { mutate: createOrderMutate } = useMutation({
+    mutationFn: (order: Order) => createOrder(order),
+    onSuccess: () => {
+      resetOrder();
+      toast('Orden enviada correctamente');
+    },
+    onError: () => toast.error('Error al enviar orden'),
+  });
   return (
     <div className="flex flex-col">
       {order.orderDetails.length > 0 ? (
@@ -67,7 +83,7 @@ const OrderCart = () => {
             />
           </span>
           <Button
-            type="submit"
+            onClick={handleOnOrderSubmit}
             variant="contained"
             style={{ backgroundColor: '#900A20' }}
             className=" text-white"

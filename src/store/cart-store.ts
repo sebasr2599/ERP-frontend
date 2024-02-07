@@ -4,6 +4,7 @@ interface cartStoreState {
   order: Order;
 }
 interface cartStoreActions {
+  createNewOrder: (name: string, location: string, wholesale: boolean) => void;
   addOrderDetail: (orderDetail: OrderDetail) => void;
   removeOrderDetail: (index: number) => void;
   reset: () => void;
@@ -21,6 +22,17 @@ const initialState: cartStoreState = {
 
 export const useCartStore = create<cartStoreState & cartStoreActions>((set) => ({
   ...initialState,
+  createNewOrder: (name: string, location: string, wholesale: boolean) => {
+    set((state) => ({
+      order: {
+        ...state.order,
+        name: name,
+        location: location,
+        wholesale: wholesale,
+        status: 'STARTED',
+      },
+    }));
+  },
   addOrderDetail: (orderDetail: OrderDetail) => {
     set((state) => ({
       order: {

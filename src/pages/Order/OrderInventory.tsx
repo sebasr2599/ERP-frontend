@@ -2,22 +2,25 @@ import { SwipeableDrawer, TextField } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
 import { ShoppingCart } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCategories } from '../../services/category.service';
-import { getUnits } from '../../services/unit.service';
+import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../../services/product.service';
 // import { toast } from 'react-toastify';
 import ProductCard from './ProductCard';
 import NoItems from '../../layouts/NoItems/NoItems';
 import { useCartStore } from '../../store/cart-store';
 import OrderCart from './OrderCart';
+import OrderModal from './OrderModal';
+import { useNavigate } from 'react-router-dom';
 
 const OrderInventory = () => {
   // Hooks
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
+  const navigateTo = useNavigate();
+  const order = useCartStore((state) => state.order);
   const orderStatus = useCartStore((state) => state.order.status);
   const orderDetailsLen = useCartStore((state) => state.order.orderDetails.length);
   const addToOrder = useCartStore((state) => state.addOrderDetail);
+  const createNewOrder = useCartStore((state) => state.createNewOrder);
 
   // Use states
   const [search, setSearch] = useState('');
@@ -27,7 +30,10 @@ const OrderInventory = () => {
   // Use effects
   useEffect(() => {
     if (orderStatus === 'NOT STARTED') {
-      setModalOpen(true);
+      handleOnModalOpen();
+    }
+    if (order.name === '' && order.location === '' && modalOpen) {
+      navigateTo('/');
     }
   }, []);
 
@@ -37,25 +43,7 @@ const OrderInventory = () => {
     queryFn: getProducts,
   });
 
-  const categoriesQuery = useQuery({
-    queryKey: ['category'],
-    queryFn: getCategories,
-  });
-
-  const unitsQuery = useQuery({
-    queryKey: ['units'],
-    queryFn: getUnits,
-  });
-
   // React Query Mutations
-  // const { mutate: createProductMutate } = useMutation({
-  //   mutationFn: (product: Product) => createProduct(product),
-  //   onSuccess: () => {
-  //     handleOnCloseModal();
-  //     queryClient.invalidateQueries({ queryKey: ['products'] });
-  //   },
-  //   onError: () => toast.error('Error al crear un nuevo usuario'),
-  // });
 
   // handlers and helper funcionts
 
@@ -64,8 +52,20 @@ const OrderInventory = () => {
   };
 
   const handleOnProductSubmit = (orderDetail: OrderDetail) => {
-    console.log(orderDetail);
     addToOrder(orderDetail);
+  };
+
+  const handleOnCreateNewOrder = (order: Order) => {
+    createNewOrder(order.name, order.location, order.wholesale);
+    handleOnModalClose();
+  };
+
+  const handleOnModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleOnModalClose = () => {
+    setModalOpen(false);
   };
 
   const handleOnOpenTab = () => {
@@ -109,6 +109,7 @@ const OrderInventory = () => {
       <SwipeableDrawer anchor="right" open={openTab} onOpen={handleOnOpenTab} onClose={handleOnCloseTab}>
         <OrderCart />
       </SwipeableDrawer>
+      <OrderModal open={modalOpen} onClose={handleOnModalClose} onCreateAccept={handleOnCreateNewOrder} />
     </>
   );
 };
