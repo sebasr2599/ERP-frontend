@@ -75,7 +75,7 @@ interface OrderDetail {
   price: number;
   unitId: number;
   productId: number;
-  equivalency?: number;
+  total?: number;
 }
 interface Order {
   id?: number;

@@ -10,9 +10,8 @@ export interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
-  // const [selectedUnit, setSetselectedUnit] = useState('');
-  const totalHelper = (quantity: number, equivalency: number | undefined, unitId: number): number => {
-    // TODO: correct total
+  // Can be fixed to less if's
+  const totalHelper = (quantity: number, price: number, unitId: number): number => {
     if (quantity <= 0 && unitId === product.unitId) {
       return product?.priceUnit;
     }
@@ -20,16 +19,17 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
       // console.log(`selectedUnitId: ${unitId} mainproductId: ${product.priceUnit} selectedEquivalency: ${equivalency}`);
       return quantity * product.priceUnit;
     }
-    if (equivalency) return quantity * equivalency;
-    return 0;
+    return quantity * price;
   };
 
   const model: OrderDetail = {
     quantity: 0,
-    price: totalHelper(0, product?.priceUnit, product.unitId) || 0,
+    price: product.priceUnit,
+    // price: totalHelper(0, product?.priceUnit, product.unitId) || 0,
     unitId: product.unitId || 1,
     productId: product.id || 1,
-    equivalency: product.priceUnit,
+    total: totalHelper(0, product?.priceUnit, product.unitId) || 0,
+    // total: product.priceUnit,
   };
 
   return (
@@ -61,7 +61,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
               <span className="text-3xl font-bold text-gray-900 flex items-center">
                 <NumericFormat
                   // value={totalHelper(props.values.quantity, props.values.equivalency, props.values.unitId)}
-                  value={props.values.price}
+                  value={props.values.total}
                   prefix="$"
                   thousandSeparator
                   displayType="text"
@@ -75,8 +75,8 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                 onChange={async (e) => {
                   props.handleChange(e);
                   await props.setFieldValue(
-                    'price',
-                    totalHelper(+e.target.value, props.values.equivalency, props.values.unitId),
+                    'total',
+                    totalHelper(+e.target.value, props.values.price, props.values.unitId),
                   );
                 }}
                 value={props.values.quantity}
@@ -99,8 +99,8 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                 <MenuItem
                   value={product.unit?.id}
                   onClick={() => {
-                    props.setFieldValue('equivalency', product.priceUnit);
-                    props.setFieldValue('price', totalHelper(props.values.quantity, product.priceUnit, product.unitId));
+                    props.setFieldValue('price', product.priceUnit);
+                    props.setFieldValue('total', totalHelper(props.values.quantity, product.priceUnit, product.unitId));
                   }}
                 >
                   {product.unit?.name}
@@ -110,9 +110,9 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                     key={equivalentUnit.unit?.id}
                     value={equivalentUnit.unit?.id}
                     onClick={() => {
-                      props.setFieldValue('equivalency', equivalentUnit.equivalent);
+                      props.setFieldValue('price', equivalentUnit.equivalent);
                       props.setFieldValue(
-                        'price',
+                        'total',
                         totalHelper(props.values.quantity, equivalentUnit.equivalent, equivalentUnit.unit?.id),
                       );
                     }}
