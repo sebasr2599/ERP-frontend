@@ -32,9 +32,9 @@ interface Product {
   name: string;
   description: string;
   image?: string;
-  priceUnit?: number;
+  priceUnit: number;
   priceWholesale?: number;
-  unitId?: number;
+  unitId: number;
   categoryId?: number;
   category?: Category;
   unit?: Unit;
@@ -45,7 +45,7 @@ interface EquivalentUnit {
   equivalent: number;
   productId?: number;
   unitId: number;
-  unit?: Unit;
+  unit: Unit;
 }
 interface Unit {
   id: number;
