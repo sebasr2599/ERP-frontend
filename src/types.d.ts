@@ -55,6 +55,10 @@ interface Category {
   id: number;
   name: string;
 }
+interface Client {
+  id: number;
+  name: string;
+}
 interface loginResponse {
   access_token: string;
   first_name: string;
@@ -91,3 +95,9 @@ interface Order {
   orderDetails: OrderDetail[];
 }
 type OrderStatus = 'NOT STARTED' | 'STARTED' | 'PENDING' | 'RELEASED';
+
+interface ModuleInterface {
+  title: string;
+  route: string;
+  icon: React.ReactNode;
+}

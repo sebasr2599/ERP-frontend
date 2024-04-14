@@ -15,7 +15,6 @@ import { useNavigate } from 'react-router-dom';
 const OrderInventory = () => {
   // Hooks
   // const queryClient = useQueryClient();
-  const navigateTo = useNavigate();
   const order = useCartStore((state) => state.order);
   const orderStatus = useCartStore((state) => state.order.status);
   const orderDetailsLen = useCartStore((state) => state.order.orderDetails.length);
@@ -28,14 +27,6 @@ const OrderInventory = () => {
   const [openTab, setOpenTab] = useState<boolean>(false);
 
   // Use effects
-  useEffect(() => {
-    if (orderStatus === 'NOT STARTED') {
-      handleOnModalOpen();
-    }
-    if (order.name === '' && order.location === '' && modalOpen) {
-      navigateTo('/');
-    }
-  }, []);
 
   // React query functions
   const productsQuery = useQuery({
@@ -57,15 +48,6 @@ const OrderInventory = () => {
 
   const handleOnCreateNewOrder = (order: Order) => {
     createNewOrder(order.name, order.location, order.wholesale);
-    handleOnModalClose();
-  };
-
-  const handleOnModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  const handleOnModalClose = () => {
-    setModalOpen(false);
   };
 
   const handleOnOpenTab = () => {
@@ -109,7 +91,6 @@ const OrderInventory = () => {
       <SwipeableDrawer anchor="right" open={openTab} onOpen={handleOnOpenTab} onClose={handleOnCloseTab}>
         <OrderCart />
       </SwipeableDrawer>
-      <OrderModal open={modalOpen} onClose={handleOnModalClose} onCreateAccept={handleOnCreateNewOrder} />
     </>
   );
 };

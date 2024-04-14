@@ -3,12 +3,8 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 import PriceCheckOutlinedIcon from '@mui/icons-material/PriceCheckOutlined';
+import { DisplaySettings } from '@mui/icons-material';
 
-export interface ModuleInterface {
-  title: string;
-  route: string;
-  icon: React.ReactNode;
-}
 const iconStyle: React.CSSProperties = {
   fontSize: '3em',
 };
@@ -38,5 +34,10 @@ export const DashboardModules: ModuleInterface[] = [
     title: 'Ventas',
     route: '/sales',
     icon: <PriceCheckOutlinedIcon className="text-primary" style={iconStyle} />,
+  },
+  {
+    title: 'Otros',
+    route: '/system-configuration',
+    icon: <DisplaySettings className="text-primary" style={iconStyle} />,
   },
 ];

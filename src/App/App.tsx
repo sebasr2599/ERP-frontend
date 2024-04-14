@@ -8,6 +8,10 @@ import { useIsAuthenticated } from 'react-auth-kit';
 import Inventory from '../pages/Inventory/Inventory';
 import ProductInventory from '../pages/Inventory/ProductInventory';
 import OrderInventory from '../pages/Order/OrderInventory';
+import Categories from '../pages/Categories/Categories';
+import Clients from '../pages/Clients/Clients';
+import Units from '../pages/Units/Units';
+import SystemConfiguration from '../pages/SystemConfiguration/SystemConfiguration';
 
 // TODO: Add use state to get access_tocken from localStorage, then check if it's auth and set store
 export function App() {
@@ -54,6 +58,38 @@ export function App() {
           element={
             <RequireAuth>
               <OrderInventory />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/system-configuration"
+          element={
+            <RequireAuth>
+              <SystemConfiguration />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <RequireAuth>
+              <Categories />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/clients"
+          element={
+            <RequireAuth>
+              <Clients />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/units"
+          element={
+            <RequireAuth>
+              <Units />
             </RequireAuth>
           }
         />

@@ -12,6 +12,19 @@ export const createCategory = async (category: Category): Promise<Category> => {
   return response.data;
 };
 
+// Read Category
+export const readCategory = async (id: number): Promise<Category> => {
+  const response = await AxiosERPInstance.get(`/category/${id}`);
+  return response.data;
+};
+
+// Update Category
+export const updateCategory = async (category: Category): Promise<Category> => {
+  const id = category.id;
+  const response = await AxiosERPInstance.patch(`/category/${id}`, category);
+  return response.data;
+};
+
 //Delete Category
 export const deleteCategory = async (id: number): Promise<Category> => {
   const response = await AxiosERPInstance.delete(`/category/${id}`);

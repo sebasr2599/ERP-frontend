@@ -29,7 +29,9 @@ const OrderCart = () => {
   };
   // React Query Mutation
   const { mutate: createOrderMutate } = useMutation({
+    // Set the status to pending
     mutationFn: (order: Order) => createOrder(order),
+
     onSuccess: () => {
       resetOrder();
       toast('Orden enviada correctamente');
