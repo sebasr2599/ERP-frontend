@@ -26,7 +26,7 @@ export const updateCategory = async (category: Category): Promise<Category> => {
 };
 
 //Delete Category
-export const deleteCategory = async (id: number): Promise<Category> => {
-  const response = await AxiosERPInstance.delete(`/category/${id}`);
+export const deleteCategory = async (category: Category): Promise<Category> => {
+  const response = await AxiosERPInstance.delete(`/category/${category.id}`);
   return response.data;
 };

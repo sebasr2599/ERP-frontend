@@ -26,7 +26,7 @@ export const updateUnit = async (unit: Client): Promise<Unit> => {
 };
 
 //Delete Unit
-export const deleteUnit = async (id: number): Promise<Unit> => {
-  const response = await AxiosERPInstance.delete(`/unit/${id}`);
+export const deleteUnit = async (unit: Unit): Promise<Unit> => {
+  const response = await AxiosERPInstance.delete(`/unit/${unit.id}`);
   return response.data;
 };

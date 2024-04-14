@@ -35,7 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           />
           <QueryClientProvider client={queryClient}>
             {/* The rest of your application */}
-            {/* <ReactQueryDevtools initialIsOpen={false} /> for devtools */}
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </BrowserRouter>
       </QueryClientProvider>

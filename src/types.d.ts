@@ -48,15 +48,15 @@ interface EquivalentUnit {
   unit: Unit;
 }
 interface Unit {
-  id: number;
+  id?: number;
   name: string;
 }
 interface Category {
-  id: number;
+  id?: number;
   name: string;
 }
 interface Client {
-  id: number;
+  id?: number;
   name: string;
 }
 interface loginResponse {

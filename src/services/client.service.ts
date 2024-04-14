@@ -26,7 +26,7 @@ export const updateClient = async (client: Client): Promise<Client> => {
 };
 
 //Delete Client
-export const deleteClient = async (id: number): Promise<Client> => {
-  const response = await AxiosERPInstance.delete(`/client/${id}`);
+export const deleteClient = async (client: Client): Promise<Client> => {
+  const response = await AxiosERPInstance.delete(`/client/${client.id}`);
   return response.data;
 };
