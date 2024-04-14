@@ -5,7 +5,7 @@ import { Button, DialogActions, DialogContent, TextField } from '@mui/material';
 import AcceptButton from '../../layouts/Buttons/AcceptButton/AcceptButton';
 import CancelButton from '../../layouts/Buttons/CancelButton/CancelButton';
 
-interface ClientsModalProps {
+export interface ClientsModalProps {
   open: boolean;
   client: Client;
   mode: modes;
