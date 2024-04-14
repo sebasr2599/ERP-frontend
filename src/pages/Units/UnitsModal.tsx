@@ -5,9 +5,9 @@ import { Button, DialogActions, DialogContent, TextField } from '@mui/material';
 import AcceptButton from '../../layouts/Buttons/AcceptButton/AcceptButton';
 import CancelButton from '../../layouts/Buttons/CancelButton/CancelButton';
 
-interface CategoriesModalProps {
+interface UnitsModalProps {
   open: boolean;
-  category: Category;
+  unit: Unit;
   mode: modes;
   onClose: () => void;
   onCreateAccept: (category: Category) => void;
@@ -15,37 +15,29 @@ interface CategoriesModalProps {
   onDeleteAccept: (category: Category) => void;
 }
 
-type modes = 'Category' | 'Delete' | '';
+type modes = 'Unit' | 'Delete' | '';
 
-const CategoriesModal: FC<CategoriesModalProps> = ({
+const UnitsModal: FC<UnitsModalProps> = ({
   open,
-  category,
+  unit,
   mode,
   onClose,
   onCreateAccept,
   onEditAccept,
   onDeleteAccept,
 }) => {
-  // const formik = useFormik({
-  //   initialValues: product,
-  //   onSubmit: (values, { resetForm }) => {
-  //     product.id ? onEditAccept(values) : onCreateAccept(values);
-  //     resetForm();
-  //   },
-  //   enableReinitialize: true,
-  // });
   return (
     <ModalTemplate
       open={open}
-      title={mode === 'Category' ? (category.id ? 'Actualizar categoría' : 'Agregar Categoría') : 'Borrar Categoría'}
+      title={mode === 'Unit' ? (unit.id ? 'Actualizar Unidad' : 'Agregar Unidad') : 'Borrar Unidad'}
       handleOnClose={onClose}
     >
-      {mode === 'Category' ? (
+      {mode === 'Unit' ? (
         // move form into <Formik> component and add field array
         <Formik
-          initialValues={category}
+          initialValues={unit}
           onSubmit={(values, { resetForm }) => {
-            category.id ? onEditAccept(values) : onCreateAccept(values);
+            unit.id ? onEditAccept(values) : onCreateAccept(values);
             resetForm();
           }}
           enableReinitialize
@@ -58,7 +50,7 @@ const CategoriesModal: FC<CategoriesModalProps> = ({
                     onChange={props.handleChange}
                     className="w-full"
                     required
-                    label="Nombre de la categoría"
+                    label="Nombre de la unidad"
                     name="name"
                     value={props.values.name}
                   />
@@ -73,10 +65,10 @@ const CategoriesModal: FC<CategoriesModalProps> = ({
         </Formik>
       ) : (
         <div>
-          <DialogContent>Seguro que quieres borrar la Categoria &apos;{category?.name}&apos;</DialogContent>
+          <DialogContent>Seguro que quieres borrar la unidad &apos;{unit?.name}&apos;</DialogContent>
           <DialogActions>
             <Button onClick={onClose}>Cancelar</Button>
-            <Button onClick={() => onDeleteAccept(category)}>Aceptar</Button>
+            <Button onClick={() => onDeleteAccept(unit)}>Aceptar</Button>
           </DialogActions>
         </div>
       )}
@@ -84,5 +76,4 @@ const CategoriesModal: FC<CategoriesModalProps> = ({
   );
 };
 
-export default CategoriesModal;
-//  <DialogContent>Seguro que quieres Borrar el usuario?</DialogContent>
+export default UnitsModal;
