@@ -69,7 +69,7 @@ const Categories = () => {
       return a.name.localeCompare(b.name);
     }),
   };
-  // TODO: Add actions column
+
   const columns: Column<Category>[] = [
     { label: 'Nombre', renderCell: (item) => item.name },
     {

@@ -72,8 +72,8 @@ const Clients = () => {
       return a.name.localeCompare(b.name);
     }),
   };
-  // TODO: Add actions column
-  const columns: Column<Category>[] = [
+
+  const columns: Column<Client>[] = [
     { label: 'Nombre', renderCell: (item) => item.name },
     {
       label: 'Acciones',
@@ -103,13 +103,13 @@ const Clients = () => {
     handleOnOpenModal();
   };
 
-  const handleOnEditClient = (category: Category) => {
+  const handleOnEditClient = (category: Client) => {
     setClientModel(category);
     setModalMode('Client');
     handleOnOpenModal();
   };
 
-  const handleOnDeleteClient = (category: Category) => {
+  const handleOnDeleteClient = (category: Client) => {
     setClientModel(category);
     setModalMode('Delete');
     handleOnOpenModal();
@@ -117,7 +117,7 @@ const Clients = () => {
 
   return (
     <>
-      <InfoBar pageTitle="Categorías">
+      <InfoBar pageTitle="Clientes">
         <Button
           onClick={handleOnAddClient}
           variant="contained"
@@ -125,7 +125,7 @@ const Clients = () => {
           style={{ backgroundColor: '#900A20', color: 'white' }}
           endIcon={<Add />}
         >
-          Agregar Categoria
+          Agregar Cliente
         </Button>
       </InfoBar>
       <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 ">

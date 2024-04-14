@@ -10,9 +10,9 @@ interface UnitsModalProps {
   unit: Unit;
   mode: modes;
   onClose: () => void;
-  onCreateAccept: (category: Category) => void;
-  onEditAccept: (category: Category) => void;
-  onDeleteAccept: (category: Category) => void;
+  onCreateAccept: (unit: Unit) => void;
+  onEditAccept: (unit: Unit) => void;
+  onDeleteAccept: (unit: Unit) => void;
 }
 
 type modes = 'Unit' | 'Delete' | '';

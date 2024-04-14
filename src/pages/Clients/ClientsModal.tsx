@@ -10,9 +10,9 @@ export interface ClientsModalProps {
   client: Client;
   mode: modes;
   onClose: () => void;
-  onCreateAccept: (category: Category) => void;
-  onEditAccept: (category: Category) => void;
-  onDeleteAccept: (category: Category) => void;
+  onCreateAccept: (client: Client) => void;
+  onEditAccept: (client: Client) => void;
+  onDeleteAccept: (client: Client) => void;
 }
 
 type modes = 'Client' | 'Delete' | '';
