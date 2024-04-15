@@ -8,7 +8,7 @@ const iconStyle: React.CSSProperties = {
 };
 const NoItems: FC<NoItemsProps> = ({ text }) => {
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col justify-center items-center gap-3 ">
       <BrokenImageIcon style={iconStyle} className="text-gray-400" />
       <span className="text-4xl text-gray-400">{text}</span>
     </div>
