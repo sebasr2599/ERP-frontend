@@ -87,40 +87,6 @@ const InventoryModal: FC<InventoryModalProps> = ({
                     name="image"
                     value={props.values.image}
                   />
-
-                  <div className="flex flex-row gap-4">
-                    <NumericFormat
-                      onValueChange={(values) => {
-                        const { floatValue } = values;
-                        props.setFieldValue('priceUnit', floatValue);
-                      }}
-                      className="w-full"
-                      required
-                      name="priceUnit"
-                      // removed this so we can get the pure number and not "$ number"
-                      value={product.id && props.values.priceUnit}
-                      allowNegative={false}
-                      thousandSeparator=","
-                      prefix={'$ '}
-                      customInput={TextField}
-                      {...{ label: 'Precio por unidad' }}
-                    />
-                    <NumericFormat
-                      onValueChange={(values) => {
-                        const { floatValue } = values;
-                        props.setFieldValue('priceWholesale', floatValue);
-                      }}
-                      className="w-full"
-                      required
-                      name="priceWholesale"
-                      value={product.id && props.values.priceWholesale}
-                      allowNegative={false}
-                      thousandSeparator=","
-                      prefix={'$ '}
-                      customInput={TextField}
-                      {...{ label: 'Precio por mayoreo' }}
-                    />
-                  </div>
                   <div className="flex flex-row gap-4">
                     <TextField
                       onChange={props.handleChange('categoryId')}
@@ -155,6 +121,23 @@ const InventoryModal: FC<InventoryModalProps> = ({
                       ))}
                     </TextField>
                   </div>
+                  <NumericFormat
+                    onValueChange={(values) => {
+                      const { floatValue } = values;
+                      props.setFieldValue('priceUnit', floatValue);
+                    }}
+                    className="w-full"
+                    required
+                    name="priceUnit"
+                    // removed this so we can get the pure number and not "$ number"
+                    value={product.id && props.values.priceUnit}
+                    allowNegative={false}
+                    thousandSeparator=","
+                    prefix={'$ '}
+                    customInput={TextField}
+                    {...{ label: 'Precio por unidad' }}
+                  />
+
                   <FieldArray
                     name="equivalentUnits"
                     render={(arrayHelpers) => (

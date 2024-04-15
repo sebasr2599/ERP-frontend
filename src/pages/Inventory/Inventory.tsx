@@ -17,7 +17,6 @@ const model: Product = {
   description: '',
   image: '',
   priceUnit: 0,
-  priceWholesale: 0,
   unitId: 1,
   categoryId: 1,
   equivalentUnits: [],

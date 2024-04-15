@@ -33,7 +33,6 @@ interface Product {
   description: string;
   image?: string;
   priceUnit: number;
-  priceWholesale?: number;
   unitId: number;
   categoryId?: number;
   category?: Category;

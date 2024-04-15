@@ -27,7 +27,7 @@ export const DashboardModules: ModuleInterface[] = [
   },
   {
     title: 'Reportes',
-    route: '/sales',
+    route: '/report-dashboard',
     icon: <ShowChartOutlinedIcon className="text-primary" style={iconStyle} />,
   },
   {

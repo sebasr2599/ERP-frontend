@@ -1,7 +1,7 @@
 import { SwipeableDrawer, TextField } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
 import { ShoppingCart } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../../services/product.service';
 // import { toast } from 'react-toastify';
@@ -9,21 +9,16 @@ import ProductCard from './ProductCard';
 import NoItems from '../../layouts/NoItems/NoItems';
 import { useCartStore } from '../../store/cart-store';
 import OrderCart from './OrderCart';
-import OrderModal from './OrderModal';
-import { useNavigate } from 'react-router-dom';
 
 const OrderInventory = () => {
   // Hooks
   // const queryClient = useQueryClient();
-  const order = useCartStore((state) => state.order);
-  const orderStatus = useCartStore((state) => state.order.status);
+  // const order = useCartStore((state) => state.order);
   const orderDetailsLen = useCartStore((state) => state.order.orderDetails.length);
   const addToOrder = useCartStore((state) => state.addOrderDetail);
-  const createNewOrder = useCartStore((state) => state.createNewOrder);
 
   // Use states
   const [search, setSearch] = useState('');
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [openTab, setOpenTab] = useState<boolean>(false);
 
   // Use effects
@@ -44,10 +39,6 @@ const OrderInventory = () => {
 
   const handleOnProductSubmit = (orderDetail: OrderDetail) => {
     addToOrder(orderDetail);
-  };
-
-  const handleOnCreateNewOrder = (order: Order) => {
-    createNewOrder(order.name, order.location, order.wholesale);
   };
 
   const handleOnOpenTab = () => {

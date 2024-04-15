@@ -12,6 +12,7 @@ import Categories from '../pages/Categories/Categories';
 import Clients from '../pages/Clients/Clients';
 import Units from '../pages/Units/Units';
 import SystemConfiguration from '../pages/SystemConfiguration/SystemConfiguration';
+import Sales from '../pages/Sales/Sales';
 
 // TODO: Add use state to get access_tocken from localStorage, then check if it's auth and set store
 export function App() {
@@ -58,6 +59,14 @@ export function App() {
           element={
             <RequireAuth>
               <OrderInventory />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/sales"
+          element={
+            <RequireAuth>
+              <Sales />
             </RequireAuth>
           }
         />

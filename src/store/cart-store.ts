@@ -1,5 +1,8 @@
 import { create } from 'zustand';
 
+// TODO: remove location
+// TODO: change name to client
+
 interface cartStoreState {
   order: Order;
 }
@@ -22,6 +25,9 @@ const initialState: cartStoreState = {
 
 export const useCartStore = create<cartStoreState & cartStoreActions>((set) => ({
   ...initialState,
+  // TODO: not used anymore, remove
+  // TODO: Create func to change the client
+
   createNewOrder: (name: string, location: string, wholesale: boolean) => {
     set((state) => ({
       order: {
@@ -39,6 +45,8 @@ export const useCartStore = create<cartStoreState & cartStoreActions>((set) => (
         ...state.order,
         orderDetails: [...state.order.orderDetails, orderDetail],
         total: state.order.total + orderDetail.price * orderDetail.quantity,
+        // TODO: change status
+        // if oderDetail > 1 set it to started
       },
     }));
   },
