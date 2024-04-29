@@ -86,14 +86,16 @@ interface Order {
   id?: number;
   date?: Date;
   userId?: number;
-  location: string;
-  name: string;
-  wholesale: boolean;
+  client?: Client;
+  clientId?: number;
+  // location: string;
+  // name: string;
+  // wholesale: boolean;
   status: OrderStatus;
   total: number;
   orderDetails: OrderDetail[];
 }
-type OrderStatus = 'NOT STARTED' | 'STARTED' | 'PENDING' | 'RELEASED';
+type OrderStatus = 'NOT STARTED' | 'STARTED' | 'PENDING' | 'BLOCKED' | 'RELEASED';
 
 interface ModuleInterface {
   title: string;

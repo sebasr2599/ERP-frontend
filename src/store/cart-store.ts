@@ -7,37 +7,29 @@ interface cartStoreState {
   order: Order;
 }
 interface cartStoreActions {
-  createNewOrder: (name: string, location: string, wholesale: boolean) => void;
+  // createNewOrder: (name: string, location: string, wholesale: boolean) => void;
+  setStatus: (status: OrderStatus) => void;
+  setClient: (clientId: number) => void;
   addOrderDetail: (orderDetail: OrderDetail) => void;
   removeOrderDetail: (index: number) => void;
   reset: () => void;
 }
 const initialState: cartStoreState = {
   order: {
-    name: '',
-    location: '',
-    wholesale: false,
     status: 'NOT STARTED',
     total: 0,
+    clientId: 1,
     orderDetails: [],
   },
 };
 
 export const useCartStore = create<cartStoreState & cartStoreActions>((set) => ({
   ...initialState,
-  // TODO: not used anymore, remove
-  // TODO: Create func to change the client
-
-  createNewOrder: (name: string, location: string, wholesale: boolean) => {
-    set((state) => ({
-      order: {
-        ...state.order,
-        name: name,
-        location: location,
-        wholesale: wholesale,
-        status: 'STARTED',
-      },
-    }));
+  setStatus: (status: OrderStatus) => {
+    set((state) => ({ ...state, status }));
+  },
+  setClient: (clientId: number) => {
+    set((state) => ({ ...state, clientId }));
   },
   addOrderDetail: (orderDetail: OrderDetail) => {
     set((state) => ({
@@ -45,8 +37,6 @@ export const useCartStore = create<cartStoreState & cartStoreActions>((set) => (
         ...state.order,
         orderDetails: [...state.order.orderDetails, orderDetail],
         total: state.order.total + orderDetail.price * orderDetail.quantity,
-        // TODO: change status
-        // if oderDetail > 1 set it to started
       },
     }));
   },
@@ -63,22 +53,3 @@ export const useCartStore = create<cartStoreState & cartStoreActions>((set) => (
     set(initialState);
   },
 }));
-// interface OrderDetail {
-//   id?: number;
-//   quantity: number;
-//   price: number;
-//   unitId: number;
-//   productId: number;
-//   equivalency?: number;
-// }
-// interface Order {
-//   id?: number;
-//   date?: Date;
-//   userId?: number;
-//   location: string;
-//   name: string;
-//   wholesale: boolean;
-//   status: string;
-//   total: number;
-//   orderDetails: OrderDetail[];
-// }

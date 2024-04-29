@@ -31,7 +31,7 @@ const OrderCart = () => {
   return (
     <div className="h-full flex flex-col">
       <div className="h-full flex flex-col gap-2 p-4">
-        <span className="text-4xl">Orden: {order.name}</span>
+        {/* <span className="text-4xl">Orden: {order.name}</span> */}
         <div className="flex flex-row gap-2 items-center">
           {/* TODO: Add here the Client */}
           <StatusComponent status={orderStatus} />
