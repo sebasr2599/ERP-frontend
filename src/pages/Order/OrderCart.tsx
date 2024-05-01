@@ -1,25 +1,35 @@
 import { useCartStore } from '../../store/cart-store';
 import NoItems from '../../layouts/NoItems/NoItems';
 import StatusComponent from '../../components/StatusComponent/StatusComponent';
-import { Button, Divider, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Button, Divider, MenuItem, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 import { NumericFormat } from 'react-number-format';
 import OrderRow from './OrderRow';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { createOrder } from '../../services/order.service';
+import { getClients } from '../../services/client.service';
 
 const OrderCart = () => {
+  // Hooks
+  // const queryClient = useQueryClient();
+  const setClient = useCartStore((state) => state.setClient);
   const order = useCartStore((state) => state.order);
   const orderStatus = useCartStore((state) => state.order.status);
   const resetOrder = useCartStore((state) => state.reset);
 
-  const handleOnOrderSubmit = () => {
-    console.log(order);
-    createOrderMutate(order);
-  };
+  // Use states
+
+  // Use effects
+
+  // React query functions
+  const clientsQuery = useQuery({
+    queryKey: ['clients'],
+    queryFn: getClients,
+  });
+
   // React Query Mutation
   const { mutate: createOrderMutate } = useMutation({
-    // Set the status to pending
+    // TODO: Set the status to pending
     mutationFn: (order: Order) => createOrder(order),
 
     onSuccess: () => {
@@ -28,15 +38,37 @@ const OrderCart = () => {
     },
     onError: () => toast.error('Error al enviar orden'),
   });
+
+  // handlers and helper funciont
+  const handleOnOrderSubmit = () => {
+    console.log(order);
+    createOrderMutate(order);
+  };
   return (
     <div className="h-full flex flex-col">
-      <div className="h-full flex flex-col gap-2 p-4">
-        {/* <span className="text-4xl">Orden: {order.name}</span> */}
-        <div className="flex flex-row gap-2 items-center">
-          {/* TODO: Add here the Client */}
-          <StatusComponent status={orderStatus} />
-        </div>
+      <div className="h-full flex flex-col gap-4 p-4">
+        {/* <span className="text-4xl">Nueva orden</span> */}
+        <TextField
+          onChange={() => console.log('pp')}
+          required
+          select
+          label="Cliente"
+          variant="outlined"
+          value={order.clientId}
+        >
+          {clientsQuery.data?.map((client) => (
+            <MenuItem key={client.id} value={client.id}>
+              {client.name}
+            </MenuItem>
+          ))}
+        </TextField>
+
         <Divider />
+        {/* <div className="flex flex-row gap-4 items-center"> */}
+        <StatusComponent status={orderStatus} />
+        {/* </div> */}
+        <Divider />
+        {/* TODO: Move to component */}
         {order.orderDetails.length > 0 ? (
           <>
             <Table>

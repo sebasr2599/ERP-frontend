@@ -16,6 +16,7 @@ const OrderRow: FC<OrderRowProps> = ({ orderDetail, rowIndex }) => {
       <TableCell align="left">{orderDetail.price.toFixed(2)}</TableCell>
       <TableCell align="left">{orderDetail.total?.toFixed(2)}</TableCell>
       <TableCell align="left">
+        {/* TODO: Check for length and change order status  */}
         <button className="flex flex-row gap-1 items-center" onClick={() => deleteOrderDetail(rowIndex)}>
           <span>Borrar</span>
           <DeleteIcon className="text-slate-600" />
