@@ -73,6 +73,7 @@ const OrderInventory = () => {
           <NoItems text="No se encontro ningun producto" />
         </div>
       ) : (
+        // send this to a component for grid view
         <div className="w-full grid prodGridContainer gap-4 justify-center items-center p-4">
           {productsQuery.data?.map((product) => (
             <ProductCard onProductSubmit={handleOnProductSubmit} product={product} key={product.id} />
