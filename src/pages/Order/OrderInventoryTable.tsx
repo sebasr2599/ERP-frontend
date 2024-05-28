@@ -6,9 +6,9 @@ import { useTheme } from '@table-library/react-table-library/theme';
 import { DEFAULT_OPTIONS, getTheme } from '@table-library/react-table-library/material-ui';
 
 export interface OrderInventoryTableProps {
-  productQuery: UseQueryResult<Product[], Error>;
+  productsQuery: UseQueryResult<Product[], Error>;
 }
-const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productQuery }) => {
+const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productsQuery }) => {
   // Hooks
   const materialTheme = getTheme({
     ...DEFAULT_OPTIONS,
@@ -19,10 +19,11 @@ const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productQuery 
 
   // handlers and helper funcionts
   const data = {
-    nodes: productQuery?.data,
+    nodes: productsQuery?.data,
   };
   const columns: Column<Product>[] = [
     { label: 'Nombre', renderCell: (item) => item.name },
+    { label: 'Categoría', renderCell: (item) => item.category?.name },
     {
       label: 'Acciones',
       renderCell: (item) => (
@@ -36,7 +37,7 @@ const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productQuery 
   ];
   return (
     <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 ">
-      {productQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />}
+      {productsQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />}
     </div>
   );
 };

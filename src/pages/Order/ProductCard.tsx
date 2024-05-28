@@ -116,7 +116,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                       props.setFieldValue('price', equivalentUnit.equivalent);
                       props.setFieldValue(
                         'total',
-                        totalHelper(props.values.quantity, equivalentUnit.equivalent, equivalentUnit.unit?.id),
+                        totalHelper(props.values.quantity, equivalentUnit.equivalent, equivalentUnit.unitId),
                       );
                       props.setFieldValue('unitName', equivalentUnit.unit.name);
                     }}
