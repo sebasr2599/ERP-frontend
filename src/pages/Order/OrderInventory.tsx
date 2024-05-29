@@ -88,7 +88,7 @@ const OrderInventory = () => {
           <NoItems text="No se encontro ningun producto" />
         </div>
       ) : viewMode === 'list' ? (
-        <OrderInventoryTable productsQuery={productsQuery} />
+        <OrderInventoryTable productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />
       ) : (
         // send this to a component for grid view
         <OrderInventoryGrid productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />

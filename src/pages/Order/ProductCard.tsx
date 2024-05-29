@@ -4,29 +4,21 @@ import { NumericFormat } from 'react-number-format';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ErrorImage from '../../assets/ErrorImage.png';
 import { Form, Formik } from 'formik';
+import { totalHelper } from '../../utils/orderUtil';
 export interface ProductCardProps {
   product: Product;
   onProductSubmit: (orderDetail: OrderDetail) => void;
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
-  const totalHelper = (quantity: number, price: number, unitId: number): number => {
-    if (quantity <= 0) {
-      return price;
-    }
-    if (unitId === product.unitId && product.priceUnit) {
-      return quantity * product.priceUnit;
-    }
-    return quantity * price;
-  };
-
+  // TODO: Get this out of the single component
   const model: OrderDetail = {
     quantity: 0,
     price: product.priceUnit,
     // price: totalHelper(0, product?.priceUnit, product.unitId) || 0,
     unitId: product.unitId || 1,
     productId: product.id || 1,
-    total: totalHelper(0, product?.priceUnit, product.unitId) || 0,
+    total: totalHelper(0, product?.priceUnit, product.unitId, product) || 0,
     productName: product.name,
     unitName: product.unit?.name,
     // total: product.priceUnit,
@@ -77,7 +69,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                   props.handleChange(e);
                   await props.setFieldValue(
                     'total',
-                    totalHelper(+e.target.value, props.values.price, props.values.unitId),
+                    totalHelper(+e.target.value, props.values.price, props.values.unitId, product),
                   );
                 }}
                 value={props.values.quantity}
@@ -102,7 +94,10 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                   value={product.unit?.id}
                   onClick={() => {
                     props.setFieldValue('price', product.priceUnit);
-                    props.setFieldValue('total', totalHelper(props.values.quantity, product.priceUnit, product.unitId));
+                    props.setFieldValue(
+                      'total',
+                      totalHelper(props.values.quantity, product.priceUnit, product.unitId, product),
+                    );
                     props.setFieldValue('unitName', product.unit?.name);
                   }}
                 >
@@ -116,7 +111,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
                       props.setFieldValue('price', equivalentUnit.equivalent);
                       props.setFieldValue(
                         'total',
-                        totalHelper(props.values.quantity, equivalentUnit.equivalent, equivalentUnit.unitId),
+                        totalHelper(props.values.quantity, equivalentUnit.equivalent, equivalentUnit.unitId, product),
                       );
                       props.setFieldValue('unitName', equivalentUnit.unit.name);
                     }}
