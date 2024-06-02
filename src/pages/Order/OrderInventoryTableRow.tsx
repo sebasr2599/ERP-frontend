@@ -25,6 +25,7 @@ const OrderInventoryTableRow: FC<OrderInventoryTableRow> = ({ product, onProduct
       <Formik
         initialValues={model}
         onSubmit={(values, { resetForm }) => {
+          console.log(values);
           onProductSubmit(values);
           resetForm();
         }}
@@ -113,7 +114,7 @@ const OrderInventoryTableRow: FC<OrderInventoryTableRow> = ({ product, onProduct
               fullWidth
               disabled={props.values.quantity > 0 ? false : true}
             >
-              Agregar a carrito
+              Agregar
             </Button>
           </Form>
         )}

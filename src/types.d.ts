@@ -51,7 +51,7 @@ interface Unit {
   name: string;
 }
 interface Category {
-  id?: number;
+  id: number;
   name: string;
 }
 interface Client {

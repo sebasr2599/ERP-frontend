@@ -1,9 +1,12 @@
 import { AxiosERPInstance } from '../Lib/axiosInstance.config';
 
 // List all products
-export const getProducts = async (): Promise<Product[]> => {
-  const response = await AxiosERPInstance.get(`/product`);
+export const getProducts = async (product: string, categoryId: number | undefined): Promise<Product[]> => {
+  // const response;
+  const response = await AxiosERPInstance.get(`/product?search=${product}&categoryId=${categoryId}`);
   return response.data;
+
+  // return response.data;
 };
 
 // Create a product
