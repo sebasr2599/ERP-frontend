@@ -68,6 +68,8 @@ const OrderInventory = () => {
   return (
     <>
       <InfoBar pageTitle="Orden">
+        {/* TODO: Move into custom Component */}
+        {/* Categories carousel */}
         <div className="overflow-x-auto">
           <ToggleButtonGroup value={selectedCategory} exclusive onChange={handleOnCategorySelect} className="flex">
             {categoriesQuery.data?.map((category) => (

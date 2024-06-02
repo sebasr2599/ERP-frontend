@@ -68,7 +68,6 @@ interface Inventory {
   id?: number;
   quantity: number;
   date?: Date;
-  location: string;
   productId: number;
   userId?: number;
 }

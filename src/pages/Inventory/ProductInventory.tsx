@@ -17,13 +17,11 @@ const ProductInventory = () => {
   const inventoryProduct: Inventory = {
     id: undefined,
     quantity: 0,
-    location: '',
     productId: id,
   };
   const formik = useFormik({
     initialValues: inventoryProduct,
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
       createInventory(values);
       resetForm();
     },
@@ -89,17 +87,6 @@ const ProductInventory = () => {
                 {...{ label: 'Precio por unidad' }}
                 disabled
               />
-              <NumericFormat
-                className="w-full"
-                name="priceWholesale"
-                value={productQuery?.data?.priceWholesale}
-                allowNegative={false}
-                thousandSeparator=","
-                prefix={'$ '}
-                customInput={TextField}
-                {...{ label: 'Precio por mayoreo' }}
-                disabled
-              />
             </div>
             <div className="w-full flex flex-row gap-4">
               <TextField
@@ -119,32 +106,20 @@ const ProductInventory = () => {
                 disabled
               />
             </div>
-            <div className="w-full flex flex-row gap-4">
-              <TextField
-                onChange={formik.handleChange}
-                className="w-full"
-                label="Ubicacion"
-                fullWidth
-                required
-                variant="outlined"
-                name="location"
-                value={formik.values.location}
-              />
-              <NumericFormat
-                onValueChange={(values) => {
-                  const { floatValue } = values;
-                  console.log(floatValue);
-                  formik.setFieldValue('quantity', floatValue);
-                }}
-                className="w-full"
-                required
-                name="quantity"
-                allowNegative={false}
-                thousandSeparator=","
-                customInput={TextField}
-                {...{ label: 'Cantidad' }}
-              />
-            </div>
+            <NumericFormat
+              onValueChange={(values) => {
+                const { floatValue } = values;
+                // console.log(floatValue);
+                formik.setFieldValue('quantity', floatValue);
+              }}
+              className="w-full"
+              required
+              name="quantity"
+              allowNegative={false}
+              thousandSeparator=","
+              customInput={TextField}
+              {...{ label: 'Cantidad' }}
+            />
             <div className="w-full flex flex-row gap-4">
               <Button
                 onClick={handleOnCancel}

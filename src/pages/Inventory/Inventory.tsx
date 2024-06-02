@@ -1,6 +1,6 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import { Add } from '@mui/icons-material';
+import { Add, ViewList, ViewModule } from '@mui/icons-material';
 import { useState } from 'react';
 import InventoryModal from './InventoryModal';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -8,8 +8,9 @@ import { getCategories } from '../../services/category.service';
 import { getUnits } from '../../services/unit.service';
 import { createProduct, deleteProduct, getProducts, updateProduct } from '../../services/product.service';
 import { toast } from 'react-toastify';
-import ProductCard from './ProductCard';
 import NoItems from '../../layouts/NoItems/NoItems';
+import InventoryGrid from './InventoryGrid';
+import InventoryTable from './InventoryTable';
 
 const model: Product = {
   id: undefined,
@@ -31,11 +32,13 @@ const Inventory = () => {
   const [productModel, setProductModel] = useState<Product>(model);
   const [modalMode, setModalMode] = useState<modes>('');
   const [search, setSearch] = useState('');
+  const [viewMode, setViewMode] = useState('list');
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
 
   // React query functions
   const productsQuery = useQuery({
-    queryKey: ['products'],
-    queryFn: getProducts,
+    queryKey: ['products', search, selectedCategory],
+    queryFn: () => getProducts(search, selectedCategory),
   });
 
   const categoriesQuery = useQuery({
@@ -105,42 +108,64 @@ const Inventory = () => {
     setModalMode('Delete');
     handleOnOpenModal();
   };
+
+  const handleViewModeChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
+    if (nextView) setViewMode(nextView); // If needed to always have a value selected
+  };
+
+  const handleOnCategorySelect = (event: React.MouseEvent<HTMLElement>, selected: number) => {
+    setSelectedCategory(selected);
+  };
+
   // TODO: Solve filtering with react query
   return (
     <>
       <InfoBar pageTitle="Inventario">
+        <div className="overflow-x-auto">
+          <ToggleButtonGroup value={selectedCategory} exclusive onChange={handleOnCategorySelect} className="flex">
+            {categoriesQuery.data?.map((category) => (
+              <ToggleButton key={category.id} value={category.id} className="flex-shrink-0">
+                {category.name}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        </div>
+        {/* Switch for List <-> Grid */}
+        <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewModeChange}>
+          <ToggleButton value="list" aria-label="list">
+            <ViewList />
+          </ToggleButton>
+          <ToggleButton value="grid" aria-label="grid">
+            <ViewModule />
+          </ToggleButton>
+        </ToggleButtonGroup>
         <Button
           onClick={handleOnAddProduct}
           variant="contained"
-          fullWidth
           style={{ backgroundColor: '#900A20', color: 'white' }}
           endIcon={<Add />}
         >
           Agregar producto
         </Button>
-        <TextField sx={{ backgroundColor: '#FFF' }} fullWidth label="Buscar Categoria" onChange={handleSearch} />
-        <TextField
-          sx={{ backgroundColor: '#FFF' }}
-          fullWidth
-          label="Buscar producto"
-          // onChange={handleSearch}
-        />
+        <TextField sx={{ backgroundColor: '#FFF' }} label="Buscar producto" onChange={handleSearch} />
       </InfoBar>
       {productsQuery.data?.length === 0 ? (
         <div className="flex justify-center items-center w-full h-full">
           <NoItems text="No se encontro ningun producto" />
         </div>
+      ) : viewMode === 'list' ? (
+        <InventoryTable
+          productsQuery={productsQuery}
+          onEditClick={handleOnEditClick}
+          onDeleteClick={handleOnDeleteClick}
+        />
       ) : (
-        <div className="w-full grid prodGridContainer gap-4 justify-center items-center p-4">
-          {productsQuery.data?.map((product) => (
-            <ProductCard
-              product={product}
-              key={product.id}
-              onEditClick={handleOnEditClick}
-              onDeleteClick={handleOnDeleteClick}
-            />
-          ))}
-        </div>
+        // send this to a component for grid view
+        <InventoryGrid
+          productsQuery={productsQuery}
+          onEditClick={handleOnEditClick}
+          onDeleteClick={handleOnDeleteClick}
+        />
       )}
       <InventoryModal
         open={openModal}
