@@ -1,142 +1,170 @@
 import { Button, IconButton } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import { Add, DeleteOutline, EditOutlined } from '@mui/icons-material';
+import { DeleteOutline, Send, Sync, Visibility } from '@mui/icons-material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createCategory, deleteCategory, getCategories, updateCategory } from '../../services/category.service';
 import { CompactTable } from '@table-library/react-table-library/compact';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { DEFAULT_OPTIONS, getTheme } from '@table-library/react-table-library/material-ui';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
-import CategoriesModal from './CategoriesModal';
+import { deleteOrder, getOrder, getOrders, updateOrderStatus } from '../../services/order.service';
+import { NumericFormat } from 'react-number-format';
+import { useState } from 'react';
+import SalesModal from './SalesModal';
+import { formatDate } from '../../utils/orderUtil';
 
-type modes = 'Category' | 'Delete' | '';
-
-const model: Category = {
-  id: undefined,
-  name: '',
+type modes = 'Order' | 'Send' | 'Delete' | '';
+const orderModel: Order = {
+  id: 0,
+  date: new Date(),
+  status: 'STARTED',
+  orderDetails: [],
+  total: 0,
 };
 
 const Sales = () => {
   // Hooks
   const queryClient = useQueryClient();
+
   const materialTheme = getTheme({
     ...DEFAULT_OPTIONS,
+    verticalSpacing: 10,
     striped: true,
     highlightOnHover: true,
   });
+
   const theme = useTheme(materialTheme);
+
   // Use states
-  const [openModal, setOpenModal] = useState(false);
-  const [categoryModel, setCategoryModel] = useState<Category>(model);
-  const [modalMode, setModalMode] = useState<modes>('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setmodalMode] = useState<modes>('');
+  const [currentOrder, setCurrentOrder] = useState<Order>(orderModel);
+
   // React query functions
-  const categoriesQuery = useQuery({
-    queryKey: ['categories'],
-    queryFn: getCategories,
+  const ordersQuery = useQuery({
+    queryKey: ['orders'],
+    queryFn: getOrders,
+    refetchInterval: 15000,
+  });
+
+  const ReadOrderQuery = useQuery({
+    queryKey: ['order', currentOrder],
+    queryFn: () => getOrder(!currentOrder.id ? 0 : currentOrder.id),
+    enabled: false,
   });
   // React Query Mutations
-  const { mutate: createCategoryMutate } = useMutation({
-    mutationFn: (category: Category) => createCategory(category),
+  const { mutate: editOrderStatusMutate } = useMutation({
+    mutationFn: (order: Order) => updateOrderStatus(order),
     onSuccess: () => {
-      handleOnCloseModal();
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      handleCloseModal();
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
-    onError: () => toast.error('Error al crear una nueva categoria'),
+    onError: () => toast.error('Error al enviar orden'),
   });
 
-  const { mutate: editCategoryMutate } = useMutation({
-    mutationFn: (category: Category) => updateCategory(category),
+  const { mutate: deletOrderMutate } = useMutation({
+    mutationFn: (id: number) => deleteOrder(id),
     onSuccess: () => {
-      handleOnCloseModal();
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      handleCloseModal();
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
-    onError: () => toast.error('Error al editar categoria'),
-  });
-
-  const { mutate: deleteCategoryMutate } = useMutation({
-    mutationFn: (category: Category) => deleteCategory(category),
-    onSuccess: () => {
-      handleOnCloseModal();
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
-    },
-
-    onError: () => toast.error('Error al borrar'),
+    onError: () => toast.error('Error al enviar orden'),
   });
 
   // handlers and helper funcionts
-  const data = {
-    nodes: categoriesQuery?.data?.sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    }),
-  };
 
-  const columns: Column<Category>[] = [
-    { label: 'Nombre', renderCell: (item) => item.name },
+  const columns: Column<Order>[] = [
+    { label: 'Cliente', renderCell: (item) => item.Client?.name },
+    { label: 'Creador', renderCell: (item) => `${item.user?.first_name} ${item.user?.last_name}` },
+    { label: 'Estatus', renderCell: (item) => item.status },
+    // @ts-expect-error Date is not undefined, but has to be ? for other components
+    { label: 'Fecha', renderCell: (item) => formatDate(item.date) },
+    {
+      label: 'Total',
+      renderCell: (item) => (
+        <NumericFormat value={item?.total.toFixed(2)} prefix="$" thousandSeparator displayType="text" disabled />
+      ),
+    },
     {
       label: 'Acciones',
       renderCell: (item) => (
         <div className="flex flex-row gap 2">
-          <IconButton onClick={() => handleOnEditCategory(item)}>
-            <EditOutlined />
+          <IconButton onClick={() => onViewSelect(item)}>
+            <Visibility />
           </IconButton>
-          <IconButton onClick={() => handleOnDeleteCategory(item)}>
-            <DeleteOutline />
-          </IconButton>
+          {(item.status === 'NOT STARTED' || item.status === 'STARTED') && (
+            <>
+              <IconButton onClick={() => onSendSelect(item)}>
+                <Send />
+              </IconButton>
+              <IconButton onClick={() => onDeleteSelect(item)}>
+                <DeleteOutline />
+              </IconButton>
+            </>
+          )}
         </div>
       ),
-      pinRight: true,
     },
   ];
-  const handleOnOpenModal = () => setOpenModal(true);
-
-  const handleOnCloseModal = () => {
-    setOpenModal(false);
-    setCategoryModel(model);
+  const data = {
+    nodes: ordersQuery?.data,
   };
 
-  const handleOnAddCategory = () => {
-    setCategoryModel(model);
-    setModalMode('Category');
-    handleOnOpenModal();
+  const handleOnClickRefetch = () => {
+    ordersQuery.refetch();
   };
 
-  const handleOnEditCategory = (category: Category) => {
-    setCategoryModel(category);
-    setModalMode('Category');
-    handleOnOpenModal();
+  const onViewSelect = (order: Order) => {
+    setCurrentOrder(order);
+    // ReadOrderQuery.refetch();
+    setmodalMode('Order');
+    handleOpenModal();
   };
 
-  const handleOnDeleteCategory = (category: Category) => {
-    setCategoryModel(category);
-    setModalMode('Delete');
-    handleOnOpenModal();
+  const onSendSelect = (order: Order) => {
+    setCurrentOrder(order);
+    setmodalMode('Send');
+    handleOpenModal();
   };
+
+  const onDeleteSelect = (order: Order) => {
+    setCurrentOrder(order);
+    setmodalMode('Delete');
+    handleOpenModal();
+  };
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setCurrentOrder(orderModel);
+    setModalOpen(false);
+  };
+
   return (
     <>
-      <InfoBar pageTitle="Categorías">
+      <InfoBar pageTitle="Ventas">
         <Button
-          onClick={handleOnAddCategory}
+          onClick={handleOnClickRefetch}
           variant="contained"
-          fullWidth
-          style={{ backgroundColor: '#900A20', color: 'white' }}
-          endIcon={<Add />}
+          style={{ backgroundColor: '#66301E', color: 'white' }}
+          startIcon={<Sync />}
         >
-          Agregar Categoria
+          Sincronizar
         </Button>
       </InfoBar>
       <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 ">
-        {categoriesQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />}
+        {ordersQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />}
       </div>
-      {/* <CategoriesModal
-        open={openModal}
-        category={categoryModel}
+      <SalesModal
         mode={modalMode}
-        onClose={handleOnCloseModal}
-        onCreateAccept={createCategoryMutate}
-        onEditAccept={editCategoryMutate}
-        onDeleteAccept={deleteCategoryMutate}
-      /> */}
+        open={modalOpen}
+        order={currentOrder}
+        onClose={handleCloseModal}
+        onSendAccept={editOrderStatusMutate}
+        onDeleteAccept={deletOrderMutate}
+        orderQuery={ReadOrderQuery}
+      />
     </>
   );
 };

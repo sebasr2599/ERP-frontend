@@ -77,22 +77,22 @@ interface OrderDetail {
   price: number;
   unitId: number;
   productId: number;
-  total?: number;
-  productName?: string;
-  unitName?: string;
+  product?: Product;
+  unit?: Unit;
+  total?: number; // Added for convinience
+  productName?: string; // Added for convinience
+  unitName?: string; // Added for convinience
 }
 interface Order {
   id?: number;
   date?: Date;
   userId?: number;
-  client?: Client;
+  Client?: Client;
   clientId?: number;
-  // location: string;
-  // name: string;
-  // wholesale: boolean;
   status: OrderStatus;
   total: number;
   orderDetails: OrderDetail[];
+  user?: User;
 }
 type OrderStatus = 'NOT STARTED' | 'STARTED' | 'PENDING' | 'BLOCKED' | 'RELEASED';
 

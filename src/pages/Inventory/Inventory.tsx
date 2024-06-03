@@ -117,7 +117,6 @@ const Inventory = () => {
     setSelectedCategory(selected);
   };
 
-  // TODO: Solve filtering with react query
   return (
     <>
       <InfoBar pageTitle="Inventario">
