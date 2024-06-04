@@ -1,5 +1,4 @@
 import { createStore } from 'zustand/vanilla';
-import { devtools } from 'zustand/middleware';
 
 interface Person {
   firstName: string | undefined;
@@ -19,27 +18,18 @@ type AuthStore = {
   };
 };
 
-const authStore = createStore<AuthStore>()(
-  devtools(
-    (set) => ({
-      accessToken: undefined,
-      refreshToken: undefined,
-      firstName: undefined,
-      lastName: undefined,
-      role: undefined,
+const authStore = createStore<AuthStore>()((set) => ({
+  accessToken: undefined,
+  refreshToken: undefined,
+  firstName: undefined,
+  lastName: undefined,
+  role: undefined,
 
-      actions: {
-        setAccessToken: (accessToken: string | undefined) => set({ accessToken }),
-        setUserInformation: (user: Person | undefined) => set({ ...user }),
-      },
-    }),
-
-    {
-      name: 'auth-store',
-      enabled: !import.meta.env.PROD,
-    },
-  ),
-);
+  actions: {
+    setAccessToken: (accessToken: string | undefined) => set({ accessToken }),
+    setUserInformation: (user: Person | undefined) => set({ ...user }),
+  },
+}));
 
 // Selectors to get states.
 export type ExtractState<S> = S extends {

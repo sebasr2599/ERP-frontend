@@ -11,5 +11,5 @@ export const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
   if (!isLogged) {
     return <Navigate to={'/login'} replace />;
   }
-  return children;
+  return <>{children ? children : null}</>;
 };
