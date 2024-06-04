@@ -1,8 +1,5 @@
 import { create } from 'zustand';
 
-// TODO: remove location
-// TODO: change name to client
-
 interface cartStoreState {
   order: Order;
 }
@@ -29,7 +26,13 @@ export const useCartStore = create<cartStoreState & cartStoreActions>((set) => (
     set((state) => ({ ...state, status }));
   },
   setClient: (clientId: number) => {
-    set((state) => ({ ...state, clientId }));
+    set((state) => ({
+      ...state,
+      order: {
+        ...state.order,
+        clientId: clientId,
+      },
+    }));
   },
   addOrderDetail: (orderDetail: OrderDetail) => {
     set((state) => ({

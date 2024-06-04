@@ -25,7 +25,6 @@ const OrderInventoryTableRow: FC<OrderInventoryTableRow> = ({ product, onProduct
       <Formik
         initialValues={model}
         onSubmit={(values, { resetForm }) => {
-          console.log(values);
           onProductSubmit(values);
           resetForm();
         }}

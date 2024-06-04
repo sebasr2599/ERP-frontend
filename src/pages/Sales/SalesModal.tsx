@@ -75,8 +75,8 @@ const CategoriesModal: FC<CategoriesModalProps> = ({
                   <TableHead>
                     <TableRow>
                       <TableCell align="left">Nombre</TableCell>
-                      <TableCell align="left">Cantidad</TableCell>
                       <TableCell align="left">Unidad</TableCell>
+                      <TableCell align="left">Cantidad</TableCell>
                       <TableCell align="left">Precio</TableCell>
                       <TableCell align="left">Total</TableCell>
                       <TableCell align="left"></TableCell>

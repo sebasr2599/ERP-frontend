@@ -8,6 +8,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { createOrder } from '../../services/order.service';
 import { getClients } from '../../services/client.service';
+import { ChangeEvent, useState } from 'react';
 
 const OrderCart = () => {
   // Hooks
@@ -18,7 +19,7 @@ const OrderCart = () => {
   const resetOrder = useCartStore((state) => state.reset);
 
   // Use states
-
+  const [selectedClientId, setSelectedClientId] = useState(order.clientId);
   // Use effects
 
   // React query functions
@@ -41,20 +42,26 @@ const OrderCart = () => {
 
   // handlers and helper funciont
   const handleOnOrderSubmit = () => {
-    console.log(order);
     createOrderMutate(order);
   };
+
+  const handleClientChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const clientId = parseInt(event.target.value, 10);
+    setSelectedClientId(clientId);
+    setClient(clientId);
+  };
+
   return (
     <div className="h-full flex flex-col">
       <div className="h-full flex flex-col gap-4 p-4">
         {/* <span className="text-4xl">Nueva orden</span> */}
         <TextField
-          onChange={() => console.log('pp')}
+          onChange={handleClientChange}
           required
           select
           label="Cliente"
           variant="outlined"
-          value={order.clientId}
+          value={selectedClientId}
         >
           {clientsQuery.data?.map((client) => (
             <MenuItem key={client.id} value={client.id}>
