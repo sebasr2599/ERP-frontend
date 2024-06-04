@@ -8,6 +8,7 @@ import { useTheme } from '@table-library/react-table-library/theme';
 import { DEFAULT_OPTIONS, getTheme } from '@table-library/react-table-library/material-ui';
 import { Add, DeleteOutline, EditOutlined, PasswordOutlined } from '@mui/icons-material';
 import UsersModal from './UsersModal';
+import InfoBar from '../../layouts/InfoBar/InfoBar';
 
 const userModel: UserTable = {
   id: 0,
@@ -70,11 +71,9 @@ const Users = () => {
   const theme = useTheme(materialTheme);
 
   if (users.isPending) {
-    console.log('users is querying');
     return <h1>Loading..</h1>;
   }
   if (users.isError) {
-    console.log('Something went wrong :(');
     toast.error('Error al obtener al usuaro');
   }
   const tableColumns: Column<UserTable>[] = [
@@ -155,32 +154,25 @@ const Users = () => {
     createUserMutate(values);
   };
 
-  // TODO: Have a way to show loading table
-  // TODO: Add delete, edit and change password modal functions
-  // TODO: Sort table alphabetical
   return (
     <>
-      {/* TODO: change this to page InfoBar component */}
-      <div className="p-8 flex justify-between mx-auto ">
-        <h1 className="font-bold text-3xl">Usuarios</h1>
-        <div className="flex flex-row w-1/3 gap-4">
-          <Button
-            onClick={handleOnAddUser}
-            variant="contained"
-            style={{ backgroundColor: '#900A20', color: 'white' }}
-            endIcon={<Add />}
-          >
-            Agregar usuario
-          </Button>
-          <TextField
-            sx={{ backgroundColor: '#FFF' }}
-            fullWidth
-            label="Buscar Usuario"
-            value={search}
-            onChange={handleSearch}
-          />
-        </div>
-      </div>
+      <InfoBar pageTitle="Usuarios">
+        <Button
+          onClick={handleOnAddUser}
+          variant="contained"
+          style={{ backgroundColor: '#900A20', color: 'white' }}
+          endIcon={<Add />}
+        >
+          Agregar usuario
+        </Button>
+        <TextField
+          sx={{ backgroundColor: '#FFF' }}
+          fullWidth
+          label="Buscar Usuario"
+          value={search}
+          onChange={handleSearch}
+        />
+      </InfoBar>
       <div className=" min-w-full rounded-md drop-shadow-md justify-center w-full p-8 ">
         {users?.data && <CompactTable columns={tableColumns} data={data} theme={theme} className="max-w-full " />}
       </div>
