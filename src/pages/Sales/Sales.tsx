@@ -11,6 +11,7 @@ import { NumericFormat } from 'react-number-format';
 import { useState } from 'react';
 import SalesModal from './SalesModal';
 import { formatDate } from '../../utils/orderUtil';
+import StatusComponent from '../../components/StatusComponent/StatusComponent';
 
 type modes = 'Order' | 'Send' | 'Delete' | '';
 const orderModel: Order = {
@@ -75,7 +76,7 @@ const Sales = () => {
   const columns: Column<Order>[] = [
     { label: 'Cliente', renderCell: (item) => item.Client?.name },
     { label: 'Creador', renderCell: (item) => `${item.user?.first_name} ${item.user?.last_name}` },
-    { label: 'Estatus', renderCell: (item) => item.status },
+    { label: 'Estatus', renderCell: (item) => <StatusComponent status={item.status} /> },
     // @ts-expect-error Date is not undefined, but has to be ? for other components
     { label: 'Fecha', renderCell: (item) => formatDate(item.date) },
     {

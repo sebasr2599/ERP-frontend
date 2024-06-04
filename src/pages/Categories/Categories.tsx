@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 type modes = 'Category' | 'Delete' | '';
 
 const model: Category = {
-  id: undefined,
+  id: 0,
   name: '',
 };
 const Categories = () => {
