@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 type modes = 'Category' | 'Delete' | '';
 
 const model: Category = {
-  id: 0,
+  id: undefined, // otherwise will sent 0 to the api
   name: '',
 };
 const Categories = () => {
