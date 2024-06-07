@@ -73,7 +73,7 @@ const OrderInventory = () => {
         <div className="overflow-x-auto">
           <ToggleButtonGroup value={selectedCategory} exclusive onChange={handleOnCategorySelect} className="flex">
             {categoriesQuery.data?.map((category) => (
-              <ToggleButton key={category.id} value={category.id} className="flex-shrink-0">
+              <ToggleButton key={category.id} value={category?.id || 0} className="flex-shrink-0">
                 {category.name}
               </ToggleButton>
             ))}
