@@ -67,6 +67,7 @@ const InventoryModal: FC<InventoryModalProps> = ({
                     label="Nombre del producto"
                     name="name"
                     value={props.values.name}
+                    autoComplete="off"
                   />
 
                   <TextField
@@ -78,6 +79,7 @@ const InventoryModal: FC<InventoryModalProps> = ({
                     label="Descripción"
                     name="description"
                     value={props.values.description}
+                    autoComplete="off"
                   />
                   <TextField
                     onChange={props.handleChange}
@@ -86,6 +88,7 @@ const InventoryModal: FC<InventoryModalProps> = ({
                     label="Imagen url del producto"
                     name="image"
                     value={props.values.image}
+                    autoComplete="off"
                   />
                   <div className="flex flex-row gap-4">
                     <TextField
@@ -97,6 +100,7 @@ const InventoryModal: FC<InventoryModalProps> = ({
                       fullWidth
                       variant="outlined"
                       value={props.values.categoryId}
+                      autoComplete="off"
                     >
                       {categories.data?.map((category) => (
                         <MenuItem key={category.id} value={category.id}>
@@ -113,6 +117,7 @@ const InventoryModal: FC<InventoryModalProps> = ({
                       fullWidth
                       variant="outlined"
                       value={props.values.unitId}
+                      autoComplete="off"
                     >
                       {units.data?.map((unit) => (
                         <MenuItem key={unit.id} value={unit.id}>

@@ -26,14 +26,6 @@ const CategoriesModal: FC<CategoriesModalProps> = ({
   onEditAccept,
   onDeleteAccept,
 }) => {
-  // const formik = useFormik({
-  //   initialValues: product,
-  //   onSubmit: (values, { resetForm }) => {
-  //     product.id ? onEditAccept(values) : onCreateAccept(values);
-  //     resetForm();
-  //   },
-  //   enableReinitialize: true,
-  // });
   return (
     <ModalTemplate
       open={open}
@@ -45,7 +37,7 @@ const CategoriesModal: FC<CategoriesModalProps> = ({
         <Formik
           initialValues={category}
           onSubmit={(values, { resetForm }) => {
-            category.id ? onEditAccept(values) : onCreateAccept(values);
+            category.id !== undefined ? onEditAccept(values) : onCreateAccept(values);
             resetForm();
           }}
           enableReinitialize
@@ -56,6 +48,7 @@ const CategoriesModal: FC<CategoriesModalProps> = ({
                 <div className="flex flex-col gap-4">
                   <TextField
                     onChange={props.handleChange}
+                    autoComplete="off"
                     className="w-full"
                     required
                     label="Nombre de la categoría"
