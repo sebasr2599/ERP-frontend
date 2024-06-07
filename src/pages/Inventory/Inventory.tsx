@@ -146,7 +146,12 @@ const Inventory = () => {
         >
           Agregar producto
         </Button>
-        <TextField sx={{ backgroundColor: '#FFF' }} label="Buscar producto" onChange={handleSearch} />
+        <TextField
+          sx={{ backgroundColor: '#FFF' }}
+          label="Buscar producto"
+          onChange={handleSearch}
+          autoComplete="off"
+        />
       </InfoBar>
       {productsQuery.data?.length === 0 ? (
         <div className="flex justify-center items-center w-full h-full">

@@ -69,6 +69,7 @@ export const Login: React.FC = () => {
         <FormControl className="w-full" variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
           <OutlinedInput
+            autoComplete="off"
             id="outlined-adornment-password"
             name="password"
             type={showPassword ? 'text' : 'password'}
