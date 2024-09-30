@@ -11,6 +11,7 @@ import OrderCart from './OrderCart';
 import OrderInventoryTable from './OrderInventoryTable';
 import OrderInventoryGrid from './OrderInventoryGrid';
 import { getCategories } from '../../services/category.service';
+import CustomLoading from '../../components/CustomLoading/CustomLoading';
 
 const OrderInventory = () => {
   // Hooks
@@ -99,7 +100,9 @@ const OrderInventory = () => {
         {/* Search Field  */}
         <TextField sx={{ backgroundColor: '#FFF' }} fullWidth label="Buscar producto" onChange={handleSearch} />
       </InfoBar>
-      {productsQuery.data?.length === 0 ? (
+      {productsQuery.isLoading ? (
+        <CustomLoading />
+      ) : productsQuery.data?.length === 0 ? (
         <div className="flex justify-center items-center w-full h-full">
           <NoItems text="No se encontro ningun producto" />
         </div>
