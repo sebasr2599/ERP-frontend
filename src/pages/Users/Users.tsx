@@ -9,6 +9,7 @@ import { DEFAULT_OPTIONS, getTheme } from '@table-library/react-table-library/ma
 import { Add, DeleteOutline, EditOutlined, PasswordOutlined } from '@mui/icons-material';
 import UsersModal from './UsersModal';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
+import CustomLoading from '../../components/CustomLoading/CustomLoading';
 
 const userModel: UserTable = {
   id: 0,
@@ -70,9 +71,6 @@ const Users = () => {
   });
   const theme = useTheme(materialTheme);
 
-  if (users.isPending) {
-    return <h1>Loading..</h1>;
-  }
   if (users.isError) {
     toast.error('Error al obtener al usuaro');
   }
@@ -174,7 +172,11 @@ const Users = () => {
         />
       </InfoBar>
       <div className=" min-w-full rounded-md drop-shadow-md justify-center w-full p-8 ">
-        {users?.data && <CompactTable columns={tableColumns} data={data} theme={theme} className="max-w-full " />}
+        {users.isLoading ? (
+          <CustomLoading />
+        ) : (
+          users?.data && <CompactTable columns={tableColumns} data={data} theme={theme} className="max-w-full " />
+        )}
       </div>
       <UsersModal
         open={openModal}
