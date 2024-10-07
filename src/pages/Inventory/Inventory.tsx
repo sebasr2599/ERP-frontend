@@ -122,7 +122,8 @@ const Inventory = () => {
   return (
     <>
       <InfoBar pageTitle="Inventario">
-        <div className="overflow-x-auto">
+        {/* Move into Custom Component? */}
+        <div className="overflow-x-auto scroll-pl-4 w-3/4 md:w-1/2 ">
           <ToggleButtonGroup value={selectedCategory} exclusive onChange={handleOnCategorySelect} className="flex">
             {categoriesQuery.data?.map((category) => (
               <ToggleButton key={category.id} value={category.id || 0} className="flex-shrink-0">

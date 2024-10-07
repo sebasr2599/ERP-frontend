@@ -12,6 +12,7 @@ import { useState } from 'react';
 import SalesModal from './SalesModal';
 import { formatDate } from '../../utils/orderUtil';
 import StatusComponent from '../../components/StatusComponent/StatusComponent';
+import CustomLoading from '../../components/CustomLoading/CustomLoading';
 
 type modes = 'Order' | 'Send' | 'Delete' | '';
 const orderModel: Order = {
@@ -155,7 +156,11 @@ const Sales = () => {
         </Button>
       </InfoBar>
       <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 ">
-        {ordersQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />}
+        {ordersQuery.isLoading ? (
+          <CustomLoading />
+        ) : (
+          ordersQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />
+        )}
       </div>
       <SalesModal
         mode={modalMode}
