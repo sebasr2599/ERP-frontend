@@ -37,6 +37,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
             alt={product.name}
             placeholderSrc={ErrorImage}
             className="relative h-80 m-2.5 overflow-hidden text-white rounded-md"
+            width={300}
           />
         </div>
       </div>
