@@ -25,12 +25,17 @@ const ProductCard: FC<ProductCardProps> = ({ product, onEditClick, onDeleteClick
   return (
     <div
       key={product.id}
-      className="w-full max-w-sm border border-gray-800 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 justify-self-center"
+      className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70"
       style={{ backgroundColor: 'white', borderColor: '#F6F6F6' }}
     >
       <div className="relative">
-        <div className="p-8 rounded-t-lg">
-          <LazyLoadImage src={product.image} alt={product.name} placeholderSrc={ErrorImage} width={350} height={320} />
+        <div className="w-full flex items-center justify-center">
+          <LazyLoadImage
+            src={product.image}
+            alt={product.name}
+            placeholderSrc={ErrorImage}
+            className="relative h-80 m-2.5 overflow-hidden text-white rounded-md"
+          />
         </div>
 
         <div className="absolute top-0 right-0 m-2">

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import NoItems from '../../layouts/NoItems/NoItems';
 import InventoryGrid from './InventoryGrid';
 import InventoryTable from './InventoryTable';
+import CustomLoading from '../../components/CustomLoading/CustomLoading';
 
 const model: Product = {
   id: undefined,
@@ -79,6 +80,7 @@ const Inventory = () => {
 
     onError: () => toast.error('Error al borrar'),
   });
+
   // handlers and helper funcionts
   const handleOnOpenModal = () => setOpenModal(true);
 
@@ -120,7 +122,8 @@ const Inventory = () => {
   return (
     <>
       <InfoBar pageTitle="Inventario">
-        <div className="overflow-x-auto">
+        {/* Move into Custom Component? */}
+        <div className="overflow-x-auto scroll-pl-4 w-3/4 md:w-1/2 ">
           <ToggleButtonGroup value={selectedCategory} exclusive onChange={handleOnCategorySelect} className="flex">
             {categoriesQuery.data?.map((category) => (
               <ToggleButton key={category.id} value={category.id || 0} className="flex-shrink-0">
@@ -153,7 +156,9 @@ const Inventory = () => {
           autoComplete="off"
         />
       </InfoBar>
-      {productsQuery.data?.length === 0 ? (
+      {productsQuery.isLoading ? (
+        <CustomLoading />
+      ) : productsQuery.data?.length === 0 ? (
         <div className="flex justify-center items-center w-full h-full">
           <NoItems text="No se encontro ningun producto" />
         </div>
@@ -164,7 +169,6 @@ const Inventory = () => {
           onDeleteClick={handleOnDeleteClick}
         />
       ) : (
-        // send this to a component for grid view
         <InventoryGrid
           productsQuery={productsQuery}
           onEditClick={handleOnEditClick}

@@ -234,7 +234,11 @@ const InventoryModal: FC<InventoryModalProps> = ({
         </Formik>
       ) : (
         <div>
-          <DialogContent>Seguro que quieres borrar el producto &apos;{product?.name}&apos;</DialogContent>
+          <DialogContent>
+            Seguro que quieres borrar el producto &apos;{product?.name}&apos;
+            <br />
+            Borrar el producto también borrara todo el historial asociado con el producto
+          </DialogContent>
           <DialogActions>
             <Button onClick={onClose}>Cancelar</Button>
             <Button onClick={() => onDeleteAccept(product)}>Aceptar</Button>

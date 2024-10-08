@@ -51,7 +51,7 @@ export const Login: React.FC = () => {
   });
   // TODO: add loading screen or toast when submitted
   return (
-    <div className="w-full min-h-screen p-5 flex items-center justify-center">
+    <div className="w-full min-h-screen lg:p-4 flex items-center justify-center">
       <form
         onSubmit={formik.handleSubmit}
         style={boxStyle}
