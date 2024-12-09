@@ -1,9 +1,9 @@
-import { Button, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Button, IconButton, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import { Add, ViewList, ViewModule } from '@mui/icons-material';
+import { Add, ArrowBack, ArrowForward, ViewList, ViewModule } from '@mui/icons-material';
 import { useState } from 'react';
 import InventoryModal from './InventoryModal';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCategories } from '../../services/category.service';
 import { getUnits } from '../../services/unit.service';
 import { createProduct, deleteProduct, getProducts, updateProduct } from '../../services/product.service';
@@ -35,11 +35,15 @@ const Inventory = () => {
   const [search, setSearch] = useState('');
   const [viewMode, setViewMode] = useState('list');
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
+  const [prevPage, setPrevPage] = useState<number | undefined>();
+  const [nextPage, setNextPage] = useState<number | undefined>();
+  const [cursor, setCursor] = useState<number | undefined>();
 
   // React query functions
   const productsQuery = useQuery({
-    queryKey: ['products', search, selectedCategory],
-    queryFn: () => getProducts(search, selectedCategory),
+    queryKey: ['products', search, selectedCategory, cursor],
+    queryFn: () => getProducts(search, selectedCategory, cursor),
+    placeholderData: keepPreviousData,
   });
 
   const categoriesQuery = useQuery({
@@ -119,6 +123,21 @@ const Inventory = () => {
     setSelectedCategory(selected);
   };
 
+  const handleOnPrevClick = () => {
+    if (!productsQuery.isPlaceholderData) setCursor(prevPage);
+  };
+  const handleOnNextClick = () => {
+    if (productsQuery.data) {
+      console.log(productsQuery.data[productsQuery.data?.length - 1]?.id);
+      setNextPage(productsQuery.data[productsQuery.data?.length - 1]?.id);
+      setCursor(productsQuery.data[productsQuery.data?.length - 1]?.id);
+    }
+  };
+
+  // if (productsQuery.isSuccess) {
+  //   setNextPage(productsQuery.data[productsQuery.data?.length - 1]?.id);
+  // }
+
   return (
     <>
       <InfoBar pageTitle="Inventario">
@@ -162,18 +181,36 @@ const Inventory = () => {
         <div className="flex justify-center items-center w-full h-full">
           <NoItems text="No se encontro ningun producto" />
         </div>
-      ) : viewMode === 'list' ? (
-        <InventoryTable
-          productsQuery={productsQuery}
-          onEditClick={handleOnEditClick}
-          onDeleteClick={handleOnDeleteClick}
-        />
       ) : (
-        <InventoryGrid
-          productsQuery={productsQuery}
-          onEditClick={handleOnEditClick}
-          onDeleteClick={handleOnDeleteClick}
-        />
+        <>
+          {viewMode === 'list' ? (
+            <InventoryTable
+              productsQuery={productsQuery}
+              onEditClick={handleOnEditClick}
+              onDeleteClick={handleOnDeleteClick}
+            />
+          ) : (
+            <InventoryGrid
+              productsQuery={productsQuery}
+              onEditClick={handleOnEditClick}
+              onDeleteClick={handleOnDeleteClick}
+            />
+          )}
+
+          {/* Buttons outside the conditional rendering */}
+          <div className="p-2 md:px-8 md:py-4 flex gap-1 justify-end items-center w-full ">
+            <IconButton onClick={handleOnPrevClick} disabled={!prevPage}>
+              <ArrowBack />
+            </IconButton>
+            <IconButton
+              onClick={handleOnNextClick}
+              // disabled={productsQuery.isPlaceholderData}
+              // onClick={() => console.log(productsQuery.data[productsQuery.data?.length - 1]?.id)}
+            >
+              <ArrowForward />
+            </IconButton>
+          </div>
+        </>
       )}
       <InventoryModal
         open={openModal}

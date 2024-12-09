@@ -17,7 +17,7 @@ const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productsQuery
   });
   const customTheme = useTheme({
     Table: `
-      --data-table-library_grid-template-columns: repeat(2, minmax(0, 1fr)) 65% ;
+      --data-table-library_grid-template-columns: repeat(2, minmax(100px, 1fr)) 65% ;
     `,
   });
   const theme = useTheme([materialTheme, customTheme]);
