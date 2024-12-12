@@ -19,7 +19,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ productsQuery, onEditCl
   });
   const customTheme = useTheme({
     Table: `
-      --data-table-library_grid-template-columns: repeat(2, minmax(150px, 1fr)) 55% ;
+      --data-table-library_grid-template-columns: repeat(2, minmax(150px, 1fr)) minmax(300px,2fr) ;
     `,
   });
   const theme = useTheme([materialTheme, customTheme]);

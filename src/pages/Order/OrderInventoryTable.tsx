@@ -17,7 +17,7 @@ const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productsQuery
   });
   const customTheme = useTheme({
     Table: `
-      --data-table-library_grid-template-columns: repeat(2, minmax(100px, 1fr)) 65% ;
+      --data-table-library_grid-template-columns: repeat(2, minmax(150px, 1fr)) minmax(500px,2fr) ;
     `,
   });
   const theme = useTheme([materialTheme, customTheme]);
@@ -35,7 +35,7 @@ const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productsQuery
     },
   ];
   return (
-    <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 ">
+    <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-2 md:px-8 pt-2 md:py-0 ">
       {productsQuery?.data && <CompactTable columns={columns} data={data} theme={theme} layout={{ custom: true }} />}
     </div>
   );
