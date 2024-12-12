@@ -1,6 +1,6 @@
-import { Button, IconButton, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import { Add, ArrowBack, ArrowForward, ViewList, ViewModule } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { useState } from 'react';
 import InventoryModal from './InventoryModal';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,6 +12,9 @@ import NoItems from '../../layouts/NoItems/NoItems';
 import InventoryGrid from './InventoryGrid';
 import InventoryTable from './InventoryTable';
 import CustomLoading from '../../components/CustomLoading/CustomLoading';
+import CategorySlider from '../../components/CategorySlider/CategorySlider';
+import ViewSlider from '../../components/ViewSlider/ViewSlider';
+import Pagination from '../../components/Pagination/Pagination';
 
 const model: Product = {
   id: undefined,
@@ -35,8 +38,7 @@ const Inventory = () => {
   const [search, setSearch] = useState('');
   const [viewMode, setViewMode] = useState('list');
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
-  const [prevPage, setPrevPage] = useState<number | undefined>();
-  const [nextPage, setNextPage] = useState<number | undefined>();
+  const [prevPage, setPrevPage] = useState<number[] | []>([]);
   const [cursor, setCursor] = useState<number | undefined>();
 
   // React query functions
@@ -122,44 +124,40 @@ const Inventory = () => {
   const handleOnCategorySelect = (event: React.MouseEvent<HTMLElement>, selected: number) => {
     setSelectedCategory(selected);
   };
-
+  // TODO: Move pagination into custom hook
   const handleOnPrevClick = () => {
-    if (!productsQuery.isPlaceholderData) setCursor(prevPage);
-  };
-  const handleOnNextClick = () => {
-    if (productsQuery.data) {
-      console.log(productsQuery.data[productsQuery.data?.length - 1]?.id);
-      setNextPage(productsQuery.data[productsQuery.data?.length - 1]?.id);
-      setCursor(productsQuery.data[productsQuery.data?.length - 1]?.id);
+    if (!productsQuery.isPlaceholderData && productsQuery?.data) {
+      setCursor(handleRemoveItem);
     }
   };
+  const handleOnNextClick = () => {
+    if (!productsQuery.isPlaceholderData && productsQuery.data) {
+      const nextId = productsQuery.data[productsQuery.data?.length - 1]?.id;
+      const oldPage = productsQuery.data[0]?.id;
+      handleAddItem(oldPage);
+      setCursor(nextId);
+    }
+  };
+  const handleAddItem = (num: number | undefined) => {
+    if (num) setPrevPage([...prevPage, num]);
+  };
 
-  // if (productsQuery.isSuccess) {
-  //   setNextPage(productsQuery.data[productsQuery.data?.length - 1]?.id);
-  // }
+  const handleRemoveItem = () => {
+    const newItems = [...prevPage];
+    const x = newItems.pop();
+    setPrevPage(newItems);
+    return x;
+  };
 
   return (
     <>
       <InfoBar pageTitle="Inventario">
-        {/* Move into Custom Component? */}
-        <div className="overflow-x-auto scroll-pl-4 w-3/4 md:w-1/2 ">
-          <ToggleButtonGroup value={selectedCategory} exclusive onChange={handleOnCategorySelect} className="flex">
-            {categoriesQuery.data?.map((category) => (
-              <ToggleButton key={category.id} value={category.id || 0} className="flex-shrink-0">
-                {category.name}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        </div>
-        {/* Switch for List <-> Grid */}
-        <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewModeChange}>
-          <ToggleButton value="list" aria-label="list">
-            <ViewList />
-          </ToggleButton>
-          <ToggleButton value="grid" aria-label="grid">
-            <ViewModule />
-          </ToggleButton>
-        </ToggleButtonGroup>
+        <CategorySlider
+          categoriesQuery={categoriesQuery}
+          selectedCategory={selectedCategory}
+          onCategorySelect={handleOnCategorySelect}
+        />
+        <ViewSlider viewMode={viewMode} handleViewModeChange={handleViewModeChange} />
         <Button
           onClick={handleOnAddProduct}
           variant="contained"
@@ -196,20 +194,12 @@ const Inventory = () => {
               onDeleteClick={handleOnDeleteClick}
             />
           )}
-
-          {/* Buttons outside the conditional rendering */}
-          <div className="p-2 md:px-8 md:py-4 flex gap-1 justify-end items-center w-full ">
-            <IconButton onClick={handleOnPrevClick} disabled={!prevPage}>
-              <ArrowBack />
-            </IconButton>
-            <IconButton
-              onClick={handleOnNextClick}
-              // disabled={productsQuery.isPlaceholderData}
-              // onClick={() => console.log(productsQuery.data[productsQuery.data?.length - 1]?.id)}
-            >
-              <ArrowForward />
-            </IconButton>
-          </div>
+          <Pagination
+            isPlaceholderData={productsQuery.isPlaceholderData}
+            prevPage={prevPage}
+            onPrevClick={handleOnPrevClick}
+            onNextClick={handleOnNextClick}
+          />
         </>
       )}
       <InventoryModal

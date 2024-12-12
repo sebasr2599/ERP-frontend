@@ -7,7 +7,7 @@ export const getProducts = async (
   cursor?: number,
 ): Promise<Product[]> => {
   // const response;
-  console.log(cursor);
+  // console.log(`cursor req: ${cursor}`);
   const response = await AxiosERPInstance.get(
     `/product?search=${product}&categoryId=${categoryId}${cursor ? `&cursor=${cursor}` : ''}`,
   );
