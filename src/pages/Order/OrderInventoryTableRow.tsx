@@ -21,7 +21,7 @@ const OrderInventoryTableRow: FC<OrderInventoryTableRow> = ({ product, onProduct
     // total: product.priceUnit,
   };
   return (
-    <div className="flex flex-row gap 2 w-full">
+    <div className="flex flex-row gap 2 w-full mr-2">
       <Formik
         initialValues={model}
         onSubmit={(values, { resetForm }) => {
@@ -41,7 +41,7 @@ const OrderInventoryTableRow: FC<OrderInventoryTableRow> = ({ product, onProduct
                 );
               }}
               value={props.values.quantity}
-              sx={{ '& .MuiInputBase-input': { height: 55 } }}
+              sx={{ '& .MuiInputBase-input': { height: 55 }, minWidth: '100px' }}
               required
               name="quantity"
               fullWidth
@@ -57,7 +57,7 @@ const OrderInventoryTableRow: FC<OrderInventoryTableRow> = ({ product, onProduct
               name="unitId"
               value={props.values.unitId}
               disabled={product.equivalentUnits?.length < 1}
-              sx={{ '& .MuiInputBase-input': { height: 55 } }}
+              sx={{ '& .MuiInputBase-input': { height: 55 }, minWidth: '100px' }}
             >
               <MenuItem
                 value={product.unit?.id}
@@ -108,7 +108,7 @@ const OrderInventoryTableRow: FC<OrderInventoryTableRow> = ({ product, onProduct
                   color: '#c0c0c0',
                 },
               }}
-              style={{ backgroundColor: '#900A20' }}
+              style={{ backgroundColor: '#900A20', minWidth: '100px' }}
               className=" text-white"
               fullWidth
               disabled={props.values.quantity > 0 ? false : true}

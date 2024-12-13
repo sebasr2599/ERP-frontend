@@ -1,8 +1,8 @@
-import { SwipeableDrawer, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { SwipeableDrawer, TextField } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import { ShoppingCart, ViewList, ViewModule } from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { getProducts } from '../../services/product.service';
 // import { toast } from 'react-toastify';
 import NoItems from '../../layouts/NoItems/NoItems';
@@ -12,6 +12,9 @@ import OrderInventoryTable from './OrderInventoryTable';
 import OrderInventoryGrid from './OrderInventoryGrid';
 import { getCategories } from '../../services/category.service';
 import CustomLoading from '../../components/CustomLoading/CustomLoading';
+import CategorySlider from '../../components/CategorySlider/CategorySlider';
+import ViewSlider from '../../components/ViewSlider/ViewSlider';
+import Pagination from '../../components/Pagination/Pagination';
 
 const OrderInventory = () => {
   // Hooks
@@ -25,12 +28,15 @@ const OrderInventory = () => {
   const [openTab, setOpenTab] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState('list');
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
+  const [prevPage, setPrevPage] = useState<number[] | []>([]);
+  const [cursor, setCursor] = useState<number | undefined>();
   // Use effects
 
   // React query functions
   const productsQuery = useQuery({
-    queryKey: ['products', search, selectedCategory],
-    queryFn: () => getProducts(search, selectedCategory),
+    queryKey: ['products', search, selectedCategory, cursor],
+    queryFn: () => getProducts(search, selectedCategory, cursor),
+    placeholderData: keepPreviousData,
   });
 
   const categoriesQuery = useQuery({
@@ -65,30 +71,38 @@ const OrderInventory = () => {
   const handleOnCategorySelect = (event: React.MouseEvent<HTMLElement>, selected: number) => {
     setSelectedCategory(selected);
   };
+  const handleOnPrevClick = () => {
+    if (!productsQuery.isPlaceholderData && productsQuery?.data) {
+      setCursor(handleRemoveItem);
+    }
+  };
+  const handleOnNextClick = () => {
+    if (!productsQuery.isPlaceholderData && productsQuery.data) {
+      const nextId = productsQuery.data[productsQuery.data?.length - 1]?.id;
+      const oldPage = productsQuery.data[0]?.id;
+      handleAddItem(oldPage);
+      setCursor(nextId);
+    }
+  };
+  const handleAddItem = (num: number | undefined) => {
+    if (num) setPrevPage([...prevPage, num]);
+  };
 
+  const handleRemoveItem = () => {
+    const newItems = [...prevPage];
+    const x = newItems.pop();
+    setPrevPage(newItems);
+    return x;
+  };
   return (
     <>
       <InfoBar pageTitle="Orden">
-        {/* TODO: Move into custom Component */}
-        {/* Categories carousel */}
-        <div className="overflow-x-auto">
-          <ToggleButtonGroup value={selectedCategory} exclusive onChange={handleOnCategorySelect} className="flex">
-            {categoriesQuery.data?.map((category) => (
-              <ToggleButton key={category.id} value={category?.id || 0} className="flex-shrink-0">
-                {category.name}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        </div>
-        {/* Switch for List <-> Grid */}
-        <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewModeChange}>
-          <ToggleButton value="list" aria-label="list">
-            <ViewList />
-          </ToggleButton>
-          <ToggleButton value="grid" aria-label="grid">
-            <ViewModule />
-          </ToggleButton>
-        </ToggleButtonGroup>
+        <CategorySlider
+          categoriesQuery={categoriesQuery}
+          selectedCategory={selectedCategory}
+          onCategorySelect={handleOnCategorySelect}
+        />
+        <ViewSlider viewMode={viewMode} handleViewModeChange={handleViewModeChange} />
         {/* Cart  */}
         <button
           className="flex flex-row items-center p-4 gap-2 rounded-full bg-white border border-slate-400 hover:bg-slate-100 hover:border-slate-700 hover:cursor-pointer"
@@ -106,11 +120,20 @@ const OrderInventory = () => {
         <div className="flex justify-center items-center w-full h-full">
           <NoItems text="No se encontro ningun producto" />
         </div>
-      ) : viewMode === 'list' ? (
-        <OrderInventoryTable productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />
       ) : (
-        // send this to a component for grid view
-        <OrderInventoryGrid productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />
+        <>
+          {viewMode === 'list' ? (
+            <OrderInventoryTable productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />
+          ) : (
+            <OrderInventoryGrid productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />
+          )}
+          <Pagination
+            isPlaceholderData={productsQuery.isPlaceholderData}
+            prevPage={prevPage}
+            onPrevClick={handleOnPrevClick}
+            onNextClick={handleOnNextClick}
+          />
+        </>
       )}
       <SwipeableDrawer anchor="right" open={openTab} onOpen={handleOnOpenTab} onClose={handleOnCloseTab}>
         <OrderCart />

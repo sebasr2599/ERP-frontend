@@ -1,9 +1,16 @@
 import { AxiosERPInstance } from '../Lib/axiosInstance.config';
 
 // List all products
-export const getProducts = async (product: string, categoryId: number | undefined): Promise<Product[]> => {
+export const getProducts = async (
+  product: string,
+  categoryId: number | undefined,
+  cursor?: number,
+): Promise<Product[]> => {
   // const response;
-  const response = await AxiosERPInstance.get(`/product?search=${product}&categoryId=${categoryId}`);
+  // console.log(`cursor req: ${cursor}`);
+  const response = await AxiosERPInstance.get(
+    `/product?search=${product}&categoryId=${categoryId}${cursor ? `&cursor=${cursor}` : ''}`,
+  );
   return response.data;
 
   // return response.data;

@@ -14,7 +14,7 @@ const InventoryTableRow: FC<InventoryTableRow> = ({ product, onEditClick, onDele
     navigateTo(`/inventory/${product.id}`);
   };
   return (
-    <div className="flex flex-row gap 2 w-full">
+    <div className="flex flex-row gap 2 w-full mr-2">
       <IconButton onClick={() => onEditClick(product)}>
         <EditOutlined />
       </IconButton>
@@ -25,7 +25,7 @@ const InventoryTableRow: FC<InventoryTableRow> = ({ product, onEditClick, onDele
         onClick={handleProductClick}
         variant="contained"
         style={{ backgroundColor: '#900A20' }}
-        className=" text-white"
+        className=" text-white flex-shrink-0 flex-none whitespace-nowrap "
       >
         Hacer inventario
       </Button>

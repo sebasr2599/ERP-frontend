@@ -69,7 +69,12 @@ const Users = () => {
     striped: true,
     highlightOnHover: true,
   });
-  const theme = useTheme(materialTheme);
+  const customTheme = useTheme({
+    Table: `
+      --data-table-library_grid-template-columns: repeat(5, minmax(100px, 1fr));
+    `,
+  });
+  const theme = useTheme([materialTheme, customTheme]);
 
   if (users.isError) {
     toast.error('Error al obtener al usuaro');
@@ -171,11 +176,21 @@ const Users = () => {
           onChange={handleSearch}
         />
       </InfoBar>
-      <div className=" min-w-full rounded-md drop-shadow-md justify-center w-full p-8 ">
+      <div className="min-w-full rounded-md drop-shadow-md justify-center w-full p-8">
         {users.isLoading ? (
           <CustomLoading />
         ) : (
-          users?.data && <CompactTable columns={tableColumns} data={data} theme={theme} className="max-w-full " />
+          users?.data && (
+            <div className="min-w-full">
+              <CompactTable
+                columns={tableColumns}
+                data={data}
+                theme={theme}
+                layout={{ custom: true, horizontalScroll: true }}
+                className="min-w-full"
+              />
+            </div>
+          )
         )}
       </div>
       <UsersModal
