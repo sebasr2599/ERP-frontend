@@ -127,7 +127,7 @@ const Units = () => {
           Agregar Unidad
         </Button>
       </InfoBar>
-      <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 ">
+      <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 mb-3">
         {unitsQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />}
       </div>
       <UnitsModal

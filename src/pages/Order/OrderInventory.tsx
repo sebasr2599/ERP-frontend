@@ -49,6 +49,8 @@ const OrderInventory = () => {
   // handlers and helper funcionts
 
   const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    resetCursor();
+    setPrevPage([]);
     setSearch(event.target.value);
   };
 
@@ -70,6 +72,8 @@ const OrderInventory = () => {
 
   const handleOnCategorySelect = (event: React.MouseEvent<HTMLElement>, selected: number) => {
     setSelectedCategory(selected);
+    resetCursor();
+    setPrevPage([]);
   };
   const handleOnPrevClick = () => {
     if (!productsQuery.isPlaceholderData && productsQuery?.data) {
@@ -94,6 +98,10 @@ const OrderInventory = () => {
     setPrevPage(newItems);
     return x;
   };
+  const resetCursor = () => {
+    setCursor(undefined);
+  };
+
   return (
     <>
       <InfoBar pageTitle="Orden">
