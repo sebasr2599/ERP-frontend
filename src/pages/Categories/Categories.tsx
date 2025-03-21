@@ -124,7 +124,7 @@ const Categories = () => {
           Agregar Categoria
         </Button>
       </InfoBar>
-      <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 ">
+      <div className=" min-w-full flex flex-col gap-6 rounded-md drop-shadow-md justify-center w-full px-8 mb-3">
         {categoriesQuery?.data && <CompactTable columns={columns} data={data} theme={theme} />}
       </div>
       <CategoriesModal

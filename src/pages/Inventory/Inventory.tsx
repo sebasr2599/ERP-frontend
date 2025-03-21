@@ -102,6 +102,8 @@ const Inventory = () => {
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    resetCursor();
+    setPrevPage([]);
     setSearch(event.target.value);
   };
 
@@ -123,6 +125,8 @@ const Inventory = () => {
 
   const handleOnCategorySelect = (event: React.MouseEvent<HTMLElement>, selected: number) => {
     setSelectedCategory(selected);
+    resetCursor();
+    setPrevPage([]);
   };
   // TODO: Move pagination into custom hook
   const handleOnPrevClick = () => {
@@ -149,6 +153,9 @@ const Inventory = () => {
     return x;
   };
 
+  const resetCursor = () => {
+    setCursor(undefined);
+  };
   return (
     <>
       <InfoBar pageTitle="Inventario">
