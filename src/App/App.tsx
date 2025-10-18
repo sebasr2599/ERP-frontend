@@ -8,6 +8,7 @@ import { useIsAuthenticated } from 'react-auth-kit';
 import Inventory from '../pages/Inventory/Inventory';
 import ProductInventory from '../pages/Inventory/ProductInventory';
 import OrderInventory from '../pages/Order/OrderInventory';
+import OrderInventoryV2 from '../pages/OrderV2/OrderInventoryV2';
 import Categories from '../pages/Categories/Categories';
 import Clients from '../pages/Clients/Clients';
 import Units from '../pages/Units/Units';
@@ -59,6 +60,14 @@ export function App() {
           element={
             <RequireAuth>
               <OrderInventory />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/order-v2"
+          element={
+            <RequireAuth>
+              <OrderInventoryV2 />
             </RequireAuth>
           }
         />

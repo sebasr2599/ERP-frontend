@@ -8,10 +8,21 @@ export interface CategorySliderProps {
 }
 const CategorySlider: FC<CategorySliderProps> = ({ categoriesQuery, selectedCategory, onCategorySelect }) => {
   return (
-    <div className="overflow-x-auto scroll-pl-4 w-3/4 md:w-1/2 ">
-      <ToggleButtonGroup value={selectedCategory} exclusive onChange={onCategorySelect} className="flex">
+    <div className="w-3/4 md:w-1/2 overflow-x-auto scroll-pl-4">
+      <ToggleButtonGroup
+        value={selectedCategory}
+        exclusive
+        onChange={onCategorySelect}
+        className="flex gap-2"
+        aria-label="Seleccionar categoría"
+      >
         {categoriesQuery.data?.map((category) => (
-          <ToggleButton key={category.id} value={category.id || 0} className="flex-shrink-0">
+          <ToggleButton
+            key={category.id}
+            value={category.id || 0}
+            className="flex-shrink-0"
+            aria-pressed={selectedCategory === category.id}
+          >
             {category.name}
           </ToggleButton>
         ))}
