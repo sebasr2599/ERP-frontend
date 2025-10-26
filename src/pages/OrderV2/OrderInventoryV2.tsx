@@ -9,6 +9,7 @@ import NoItems from '../../layouts/NoItems/NoItems';
 import { useCartStore } from '../../store/cart-store';
 import OrderCart from './OrderCart';
 import OrderInventoryGrid from './OrderInventoryGrid';
+import FloatingProductBar from './FloatingProductBar';
 import { getCategories } from '../../services/category.service';
 import CustomLoading from '../../components/CustomLoading/CustomLoading';
 import CategorySlider from '../../components/CategorySlider/CategorySlider';
@@ -51,10 +52,16 @@ const OrderInventoryV2 = () => {
     setSearch(event.target.value);
   };
 
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const addToOrder = useCartStore((state) => state.addOrderDetail);
   const handleOnProductSubmit = (product: Product) => {
-    // For now, just log the product object
-    // eslint-disable-next-line no-console
-    console.log('Add product clicked:', product);
+    setSelectedProduct(product);
+  };
+  const handleAddDetailFromBar = (orderDetail: OrderDetail) => {
+    addToOrder(orderDetail);
+  };
+  const handleClearBar = () => {
+    setSelectedProduct(null);
   };
 
   const handleOnOpenTab = () => {
@@ -146,6 +153,7 @@ const OrderInventoryV2 = () => {
             onPrevClick={handleOnPrevClick}
             onNextClick={handleOnNextClick}
           />
+          <FloatingProductBar product={selectedProduct} onAdd={handleAddDetailFromBar} onClear={handleClearBar} />
         </>
       )}
       <SwipeableDrawer anchor="right" open={openTab} onOpen={handleOnOpenTab} onClose={handleOnCloseTab}>

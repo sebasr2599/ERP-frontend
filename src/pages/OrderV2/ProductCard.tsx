@@ -10,8 +10,18 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
   return (
     <div
       key={product.id}
-      className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70"
+      className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       style={{ backgroundColor: 'white', borderColor: '#F6F6F6' }}
+      role="button"
+      aria-label={`Agregar ${product.name} al carrito`}
+      tabIndex={0}
+      onClick={() => onProductSubmit(product)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onProductSubmit(product);
+        }
+      }}
     >
       <div className="relative">
         <div className="w-full flex items-center justify-center p-2">
@@ -37,16 +47,20 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
           <button
             aria-label={`Agregar ${product.name} al carrito`}
             tabIndex={0}
-            onClick={() => onProductSubmit(product)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onProductSubmit(product);
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
+                e.stopPropagation();
                 onProductSubmit(product);
               }
             }}
             className="w-full rounded-md bg-primary px-4 py-2 text-white hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            Agregar a carrito
+            Agregar
           </button>
         </div>
       </div>
