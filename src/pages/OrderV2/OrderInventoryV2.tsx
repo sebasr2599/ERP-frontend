@@ -19,7 +19,7 @@ const OrderInventoryV2 = () => {
   // const queryClient = useQueryClient();
   // const order = useCartStore((state) => state.order);
   const orderDetailsLen = useCartStore((state) => state.order.orderDetails.length);
-  const addToOrder = useCartStore((state) => state.addOrderDetail);
+  // const addToOrder = useCartStore((state) => state.addOrderDetail);
 
   // Use states
   const [search, setSearch] = useState('');
@@ -51,8 +51,10 @@ const OrderInventoryV2 = () => {
     setSearch(event.target.value);
   };
 
-  const handleOnProductSubmit = (orderDetail: OrderDetail) => {
-    addToOrder(orderDetail);
+  const handleOnProductSubmit = (product: Product) => {
+    // For now, just log the product object
+    // eslint-disable-next-line no-console
+    console.log('Add product clicked:', product);
   };
 
   const handleOnOpenTab = () => {
