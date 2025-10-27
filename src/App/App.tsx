@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import Navbar from '../layouts/Navbar/Navbar';
 import Users from '../pages/Users/Users';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
+import AuthWatcher from '../components/ProtectedRoute/AuthWatcher';
 import PublicRoute from '../components/ProtectedRoute/PublicRoute';
 import Inventory from '../pages/Inventory/Inventory';
 import ProductInventory from '../pages/Inventory/ProductInventory';
@@ -20,6 +21,7 @@ export function App() {
   const isIn = () => !!localStorage.getItem('access_token');
   return (
     <>
+      <AuthWatcher />
       {isIn() && <Navbar />}
       <Routes>
         <Route
