@@ -7,6 +7,7 @@ import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 import AuthWatcher from '../components/ProtectedRoute/AuthWatcher';
 import PublicRoute from '../components/ProtectedRoute/PublicRoute';
 import Inventory from '../pages/Inventory/Inventory';
+import { useAccessToken } from '../store/auth-store';
 import ProductInventory from '../pages/Inventory/ProductInventory';
 import OrderInventory from '../pages/Order/OrderInventory';
 import OrderInventoryV2 from '../pages/OrderV2/OrderInventoryV2';
@@ -18,7 +19,8 @@ import Sales from '../pages/Sales/Sales';
 
 // TODO: Add use state to get access_tocken from localStorage, then check if it's auth and set store
 export function App() {
-  const isIn = () => !!localStorage.getItem('access_token');
+  const token = useAccessToken();
+  const isIn = () => !!token;
   return (
     <>
       <AuthWatcher />
