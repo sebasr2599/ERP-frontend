@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { useSignOut } from 'react-auth-kit';
 import { getFirstName, getLastName } from '../../store/auth-store';
 import { logoutAuth } from '../../utils/auth-util';
 
@@ -9,11 +8,12 @@ const Navbar: React.FC = () => {
   // const { firstName, lastName } = useUser();
   const firstName = getFirstName();
   const lastName = getLastName();
-  const signOutHook = useSignOut();
   const navigateTo = useNavigate();
   const handleOnClickLogOut = () => {
-    signOutHook();
     logoutAuth();
+    localStorage.removeItem('user_first_name');
+    localStorage.removeItem('user_last_name');
+    localStorage.removeItem('user_role');
     navigateTo('/login');
   };
   return (

@@ -3,15 +3,14 @@ import { getAccessToken, getActions } from '../store/auth-store';
 const { setAccessToken, setUserInformation } = getActions();
 
 const isLoggedIn = () => {
-  const accessToken = getAccessToken();
+  const accessToken = getAccessToken() || localStorage.getItem('access_token');
   return !!accessToken;
 };
 
 const logoutAuth = () => {
-  if (!isLoggedIn()) {
-    setAccessToken(undefined);
-    setUserInformation(undefined);
-  }
+  setAccessToken(undefined);
+  setUserInformation(undefined);
+  localStorage.removeItem('access_token');
 };
 
 export { isLoggedIn, logoutAuth };

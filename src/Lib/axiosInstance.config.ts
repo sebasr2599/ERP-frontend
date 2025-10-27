@@ -15,7 +15,7 @@ const AxiosERPInstance = axios.create({
 });
 
 AxiosERPInstance.interceptors.request.use((config) => {
-  const token = getAccessToken();
+  const token = getAccessToken() || localStorage.getItem('access_token') || undefined;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

@@ -3,8 +3,8 @@ import Login from '../pages/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Navbar from '../layouts/Navbar/Navbar';
 import Users from '../pages/Users/Users';
-import { RequireAuth } from '../components/RequireAuth/RequireAuth';
-import { useIsAuthenticated } from 'react-auth-kit';
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
+import PublicRoute from '../components/ProtectedRoute/PublicRoute';
 import Inventory from '../pages/Inventory/Inventory';
 import ProductInventory from '../pages/Inventory/ProductInventory';
 import OrderInventory from '../pages/Order/OrderInventory';
@@ -17,98 +17,105 @@ import Sales from '../pages/Sales/Sales';
 
 // TODO: Add use state to get access_tocken from localStorage, then check if it's auth and set store
 export function App() {
-  const isIn = useIsAuthenticated();
+  const isIn = () => !!localStorage.getItem('access_token');
   return (
     <>
       {isIn() && <Navbar />}
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
         <Route
           path="/"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <Dashboard />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/users"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <Users />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/inventory"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <Inventory />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/inventory/:productId"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <ProductInventory />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/order"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <OrderInventory />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/order-v2"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <OrderInventoryV2 />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/sales"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <Sales />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/system-configuration"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <SystemConfiguration />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/categories"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <Categories />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/clients"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <Clients />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/units"
           element={
-            <RequireAuth>
+            <ProtectedRoute>
               <Units />
-            </RequireAuth>
+            </ProtectedRoute>
           }
         />
       </Routes>
