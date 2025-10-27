@@ -18,6 +18,7 @@ import Pagination from '../../components/Pagination/Pagination';
 
 const model: Product = {
   id: undefined,
+  productKey: '',
   name: '',
   description: '',
   image: '',

@@ -29,6 +29,7 @@ type Column<T extends TableNode> = {
 
 interface Product {
   id?: number;
+  productKey?: string;
   name: string;
   description: string;
   image?: string;

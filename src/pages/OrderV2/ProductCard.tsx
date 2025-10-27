@@ -38,6 +38,7 @@ const ProductCard: FC<ProductCardProps> = ({ product, onProductSubmit }) => {
       <div className="px-4 pb-4 flex flex-col gap-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col">
+            <span className="text-[11px] text-gray-500">{product.productKey}</span>
             <span className="text-base font-semibold text-gray-900">{product.name}</span>
             <span className="text-xs text-gray-500">{product?.category?.name}</span>
           </div>

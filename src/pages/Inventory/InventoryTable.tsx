@@ -29,6 +29,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ productsQuery, onEditCl
     nodes: productsQuery?.data,
   };
   const columns: Column<Product>[] = [
+    { label: 'Clave', renderCell: (item) => item.productKey },
     { label: 'Nombre', renderCell: (item) => item.name },
     { label: 'Categoría', renderCell: (item) => item.category?.name },
     {

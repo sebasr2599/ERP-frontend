@@ -63,6 +63,14 @@ const InventoryModal: FC<InventoryModalProps> = ({
                   <TextField
                     onChange={props.handleChange}
                     className="w-full"
+                    label="Clave del producto"
+                    name="productKey"
+                    value={props.values.productKey}
+                    autoComplete="off"
+                  />
+                  <TextField
+                    onChange={props.handleChange}
+                    className="w-full"
                     required
                     label="Nombre del producto"
                     name="name"
