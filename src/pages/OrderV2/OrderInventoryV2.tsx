@@ -1,6 +1,6 @@
 import { SwipeableDrawer, TextField } from '@mui/material';
 import InfoBar from '../../layouts/InfoBar/InfoBar';
-import { ShoppingCart } from '@mui/icons-material';
+import { ShoppingCart, Close } from '@mui/icons-material';
 import { useState } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { getProducts } from '../../services/product.service';
@@ -156,8 +156,32 @@ const OrderInventoryV2 = () => {
           <FloatingProductBar product={selectedProduct} onAdd={handleAddDetailFromBar} onClear={handleClearBar} />
         </>
       )}
-      <SwipeableDrawer anchor="right" open={openTab} onOpen={handleOnOpenTab} onClose={handleOnCloseTab}>
-        <OrderCart />
+      <SwipeableDrawer
+        anchor="right"
+        open={openTab}
+        onOpen={handleOnOpenTab}
+        onClose={handleOnCloseTab}
+        PaperProps={{
+          sx: {
+            width: { xs: '100%', sm: 420, md: '40%' },
+          },
+        }}
+      >
+        <div className="flex h-screen max-h-screen flex-col">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white p-3">
+            <span className="text-base font-semibold">Carrito</span>
+            <button
+              className="rounded-full border border-slate-300 p-2 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label="Cerrar carrito"
+              onClick={handleOnCloseTab}
+            >
+              <Close />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto">
+            <OrderCart />
+          </div>
+        </div>
       </SwipeableDrawer>
     </>
   );
