@@ -9,6 +9,7 @@ interface cartStoreActions {
   setClient: (clientId: number) => void;
   addOrderDetail: (orderDetail: OrderDetail) => void;
   removeOrderDetail: (index: number) => void;
+  updateOrderDetailQuantity: (index: number, quantity: number) => void;
   reset: () => void;
 }
 const initialState: cartStoreState = {
@@ -51,6 +52,28 @@ export const useCartStore = create<cartStoreState & cartStoreActions>((set) => (
         total: state.order.total - state.order.orderDetails[index].price * state.order.orderDetails[index].quantity,
       },
     }));
+  },
+  updateOrderDetailQuantity: (index: number, quantity: number) => {
+    set((state) => {
+      const safeQuantity = quantity < 0 ? 0 : quantity;
+      const updatedDetails = state.order.orderDetails.map((d, i) => {
+        if (i !== index) return d;
+        const updatedTotal = d.unitId === d.unitId && d.productId ? safeQuantity * d.price : safeQuantity * d.price;
+        return {
+          ...d,
+          quantity: safeQuantity,
+          total: updatedTotal,
+        };
+      });
+      const newTotal = updatedDetails.reduce((sum, d) => sum + d.price * d.quantity, 0);
+      return {
+        order: {
+          ...state.order,
+          orderDetails: updatedDetails,
+          total: newTotal,
+        },
+      };
+    });
   },
   reset: () => {
     set(initialState);

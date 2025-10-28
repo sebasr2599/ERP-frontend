@@ -3,7 +3,6 @@ import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedIn
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { login } from '../../services/auth.service';
-import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import { getActions } from '../../store/auth-store';
 
@@ -14,7 +13,6 @@ const boxStyle = {
 };
 export const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const loginHook = useSignIn();
   const navigateTo = useNavigate();
   const { setAccessToken, setUserInformation } = getActions();
 
@@ -24,12 +22,6 @@ export const Login: React.FC = () => {
   const onSubmit = async (values: { username: string; password: string }) => {
     const user = await login(values.username, values.password);
     if (user) {
-      loginHook({
-        token: user.access_token,
-        expiresIn: 60 * 8,
-        tokenType: 'Bearer',
-      });
-
       setAccessToken(user.access_token);
       setUserInformation({
         firstName: user.first_name,
@@ -37,6 +29,9 @@ export const Login: React.FC = () => {
         role: user.rol,
       });
       localStorage.setItem('access_token', user.access_token);
+      localStorage.setItem('user_first_name', user.first_name);
+      localStorage.setItem('user_last_name', user.last_name);
+      localStorage.setItem('user_role', user.rol);
 
       navigateTo('/');
     }

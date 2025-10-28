@@ -74,7 +74,10 @@ const ProductCard: FC<ProductCardProps> = ({ product, onEditClick, onDeleteClick
       </div>
       <div className="px-5 pb-5">
         <div className="flex items-center justify-between">
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">{product.name}</h5>
+          <div className="flex flex-col">
+            <span className="text-xs text-gray-500">{product.productKey}</span>
+            <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">{product.name}</h5>
+          </div>
           <span className="text-3xl font-bold text-gray-900 ">
             <NumericFormat value={product?.priceUnit} prefix="$ " thousandSeparator displayType="text" disabled />
           </span>

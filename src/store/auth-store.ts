@@ -1,4 +1,5 @@
 import { createStore } from 'zustand/vanilla';
+import { useSyncExternalStore } from 'react';
 
 interface Person {
   firstName: string | undefined;
@@ -53,3 +54,16 @@ export const getLastName = () => selectLastName(authStore.getState());
 export const getRole = () => selectRole(authStore.getState());
 
 export { authStore, selectAccessToken, selectFirstName, selectLastName, selectRole };
+
+// React hooks to subscribe to store changes
+export const useAuthStoreSelector = <T>(selector: (state: ExtractState<typeof authStore>) => T): T =>
+  useSyncExternalStore(
+    authStore.subscribe,
+    () => selector(authStore.getState()),
+    () => selector(authStore.getState()),
+  );
+
+export const useAccessToken = () => useAuthStoreSelector(selectAccessToken);
+export const useFirstName = () => useAuthStoreSelector(selectFirstName);
+export const useLastName = () => useAuthStoreSelector(selectLastName);
+export const useRole = () => useAuthStoreSelector(selectRole);
