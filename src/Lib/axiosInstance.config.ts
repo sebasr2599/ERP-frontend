@@ -23,15 +23,15 @@ AxiosERPInstance.interceptors.request.use((config) => {
   return config;
 });
 
-AxiosERPInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error?.response?.status === 401) {
-      logoutAuth();
-      window.location.replace('/login');
-    }
-    return Promise.reject(error);
-  },
-);
-
+// AxiosERPInstance.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error?.response?.status === 401) {
+//       logoutAuth();
+//       window.location.replace('/login');
+//     }
+//     return Promise.reject(error);
+//   },
+// );
+//
 export { AxiosERPInstance };

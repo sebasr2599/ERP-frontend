@@ -27,7 +27,7 @@ const OrderInventoryTable: React.FC<OrderInventoryTableProps> = ({ productsQuery
     nodes: productsQuery?.data,
   };
   const columns: Column<Product>[] = [
-    { label: 'Clave', renderCell: (item) => item.productKey },
+    { label: 'Clave', renderCell: (item) => item.productKey ?? 'N/A' },
     { label: 'Nombre', renderCell: (item) => item.name },
     { label: 'Categoría', renderCell: (item) => item.category?.name },
     {

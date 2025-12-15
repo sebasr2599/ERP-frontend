@@ -13,7 +13,7 @@ const AuthWatcher = () => {
         logoutAuth();
         window.location.replace('/login');
       }
-    }, 1000 * 60 * 2); // 2 minutes
+    }, 1000 * 60 * 20); // 2 minutes
 
     return () => clearInterval(intervalId);
   }, []);
