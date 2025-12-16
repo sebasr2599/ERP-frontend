@@ -23,7 +23,7 @@ export function App() {
   const isIn = () => !!token;
   return (
     <>
-      {/* <AuthWatcher /> */}
+      <AuthWatcher />
       {isIn() && <Navbar />}
       <Routes>
         <Route

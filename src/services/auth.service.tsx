@@ -18,7 +18,7 @@ export const login = async (username: string, password: string): Promise<loginRe
 export const verifyAuth = async (): Promise<boolean> => {
   try {
     const response = await AxiosERPInstance.get(`/auth`);
-    return response.status === 200;
+    return response.status === 200 || response.status === 201 || response.status === 204;
   } catch (error) {
     return false;
   }
