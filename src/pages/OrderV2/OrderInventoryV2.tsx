@@ -9,11 +9,13 @@ import NoItems from '../../layouts/NoItems/NoItems';
 import { useCartStore } from '../../store/cart-store';
 import OrderCart from './OrderCart';
 import OrderInventoryGrid from './OrderInventoryGrid';
+import OrderInventoryTable from './OrderInventoryTable';
 import FloatingProductBar from './FloatingProductBar';
 import { getCategories } from '../../services/category.service';
 import CustomLoading from '../../components/CustomLoading/CustomLoading';
 import CategorySlider from '../../components/CategorySlider/CategorySlider';
 import Pagination from '../../components/Pagination/Pagination';
+import ViewSlider from '../../components/ViewSlider/ViewSlider';
 
 const OrderInventoryV2 = () => {
   // Hooks
@@ -25,6 +27,7 @@ const OrderInventoryV2 = () => {
   // Use states
   const [search, setSearch] = useState('');
   const [openTab, setOpenTab] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState('list');
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [prevPage, setPrevPage] = useState<number[] | []>([]);
   const [cursor, setCursor] = useState<number | undefined>();
@@ -57,11 +60,17 @@ const OrderInventoryV2 = () => {
   const handleOnProductSubmit = (product: Product) => {
     setSelectedProduct(product);
   };
+  const handleOnProductSubmitTable = (orderDetail: OrderDetail) => {
+    addToOrder(orderDetail);
+  };
   const handleAddDetailFromBar = (orderDetail: OrderDetail) => {
     addToOrder(orderDetail);
   };
   const handleClearBar = () => {
     setSelectedProduct(null);
+  };
+  const handleViewModeChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
+    if (nextView) setViewMode(nextView);
   };
 
   const handleOnOpenTab = () => {
@@ -110,6 +119,7 @@ const OrderInventoryV2 = () => {
           selectedCategory={selectedCategory}
           onCategorySelect={handleOnCategorySelect}
         />
+        <ViewSlider viewMode={viewMode} handleViewModeChange={handleViewModeChange} />
         {/* Cart  */}
         <button
           className="flex flex-row items-center gap-2 rounded-full border border-slate-300 bg-white p-3 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
@@ -146,7 +156,11 @@ const OrderInventoryV2 = () => {
         </div>
       ) : (
         <>
-          <OrderInventoryGrid productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />
+          {viewMode === 'list' ? (
+            <OrderInventoryTable productsQuery={productsQuery} onProductSubmit={handleOnProductSubmitTable} />
+          ) : (
+            <OrderInventoryGrid productsQuery={productsQuery} onProductSubmit={handleOnProductSubmit} />
+          )}
           <Pagination
             isPlaceholderData={productsQuery.isPlaceholderData}
             prevPage={prevPage}
