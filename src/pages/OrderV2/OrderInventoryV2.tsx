@@ -31,6 +31,9 @@ const OrderInventoryV2 = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [prevPage, setPrevPage] = useState<number[] | []>([]);
   const [cursor, setCursor] = useState<number | undefined>();
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const addToOrder = useCartStore((state) => state.addOrderDetail);
+
   // Use effects
 
   // React query functions
@@ -52,11 +55,10 @@ const OrderInventoryV2 = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     resetCursor();
     setPrevPage([]);
+    setSelectedCategory(undefined);
     setSearch(event.target.value);
   };
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const addToOrder = useCartStore((state) => state.addOrderDetail);
   const handleOnProductSubmit = (product: Product) => {
     setSelectedProduct(product);
   };
