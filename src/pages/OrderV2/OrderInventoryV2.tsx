@@ -27,7 +27,7 @@ const OrderInventoryV2 = () => {
   // Use states
   const [search, setSearch] = useState('');
   const [openTab, setOpenTab] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState('list');
+  const [viewMode, setViewMode] = useState('grid');
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [prevPage, setPrevPage] = useState<number[] | []>([]);
   const [cursor, setCursor] = useState<number | undefined>();
