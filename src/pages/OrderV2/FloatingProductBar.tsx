@@ -129,8 +129,9 @@ const FloatingProductBar: FC<FloatingProductBarProps> = ({ product, onAdd, onCle
                 <input
                   className="h-10 w-20 rounded-md border border-slate-300 px-3 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   type="number"
-                  inputMode="numeric"
+                  inputMode="decimal"
                   min={0}
+                  step="any"
                   aria-label="Cantidad"
                   value={quantity}
                   onChange={handleQuantityChange}
